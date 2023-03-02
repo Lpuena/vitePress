@@ -8,6 +8,7 @@ export default {
     nav: [
       {text: 'Git', link: '/git/Git'},
       {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
+      {text: 'JS', link: '/js/', activeMatch: '/js/'},
       {
         text: 'Dropdown Menu',
         items: [
@@ -24,17 +25,18 @@ export default {
       {text: 'Github', link: 'https://github.com/Lpuena'},
     ],
     sidebar: {
-      // 'Git': [
-      //   {
-      //     text: 'Git',
-      //     collapsible: true,
-      //     collapsed: false, //默认展开
-      //     items: [
-      //       // This shows `/guide/index.md` page.(必须有index.md)
-      //       {text: 'Git', link: 'Git/Git.md'},
-      //     ]
-      //   }
-      // ],
+      '/js/': [
+        {
+          text: 'JS',
+          collapsible: true,
+          collapsed: false, //默认展开
+          items: [
+            // This shows `/guide/index.md` page.(必须有index.md)
+            {text: 'JS常见问题', link: '/js/'},
+            // {text: '地址引用问题', link: '/js/地址引用问题'},
+          ]
+        }
+      ],
       '/vue/': [
         {
           text: 'Vue',
