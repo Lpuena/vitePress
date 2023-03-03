@@ -4,7 +4,7 @@ export default {
   head:[
     [
       'link',
-      { rel: 'icon', href: '/favicon.png'}
+      { rel: 'icon', href: '/32.png'}
     ]
   ],
   lastUpdated: true,
