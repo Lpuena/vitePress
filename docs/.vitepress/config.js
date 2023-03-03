@@ -1,11 +1,17 @@
 import {defineConfig} from 'vitepress'
 
 export default {
+  head:[
+    [
+      'link',
+      { rel: 'icon', href: '/favicon.png'}
+    ]
+  ],
   lastUpdated: true,
   base: '/vitePress/',
   themeConfig: {
     siteTitle: 'Blog',
-    // logo: '/',
+    // logo: '/favicon.png',
     nav: [
       {text: 'Git', link: '/git/Git'},
       {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
