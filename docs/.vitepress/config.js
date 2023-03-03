@@ -1,6 +1,7 @@
 import {defineConfig} from 'vitepress'
 
 export default {
+  lastUpdated: true,
   base: '/vitePress/',
   themeConfig: {
     siteTitle: 'Blog',
