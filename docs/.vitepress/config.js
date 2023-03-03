@@ -5,7 +5,7 @@ export default {
   base: '/vitePress/',
   themeConfig: {
     siteTitle: 'Blog',
-    logo: '/vite.svg',
+    // logo: '/',
     nav: [
       {text: 'Git', link: '/git/Git'},
       {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
