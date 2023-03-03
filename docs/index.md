@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Lpuena`Blog
   text: Personal blog based on vitePress.
-  tagline: 前端 Node.js...
+  tagline: Web Node.js...
   image:
     src: /vite.jpeg
     alt: VitePress
