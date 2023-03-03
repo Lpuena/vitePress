@@ -14,17 +14,17 @@
     v-model="addPlaneForm.planPaymentAmount"
     oninput="value=value.match(/^\d+(?:\.\d{0,2})?/)"
     @blur="planPaymentAmountFix($event.target.value)"
-    placeholder="请输入"/>
+    placeholder="请输入"
+/>
 
-<!-- like this
-        
-  -->
 ```
-> 如果不需要对数据进行加工,直接在```@blur```中将```$event.target.value```的值赋给v-model中绑定的值.
-> 
-> 示例:
-> 
-> ```@blur="addPlaneForm.planPaymentAmount = $event.target.value"```
+:::tip
+如果不需要对数据进行加工,直接在```@blur```中将```$event.target.value```的值赋给v-model中绑定的值.
+
+<strong>示例：</strong>```@blur="addPlaneForm.planPaymentAmount = $event.target.value"```
+:::
+
+
 
 ```js
 planPaymentAmountFix(value) {

@@ -24,8 +24,7 @@ features:
     details: VitePress generates pre-rendered static HTML for each page, and runs as an SPA once a page is loaded.
 ---
 
-<style>
-:root {
+<style>:root {
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe, #41d1ff);
 }
