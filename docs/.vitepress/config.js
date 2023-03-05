@@ -11,7 +11,7 @@ export default defineConfig({
   base: '/vitePress/',
   themeConfig: {
     siteTitle: 'Blog',
-    logo: '/32.png',
+    // logo: '/32.png',
     nav: [
       {text: 'Git', link: '/git/Git'},
       {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
