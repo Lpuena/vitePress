@@ -8,6 +8,9 @@ export default defineConfig({
     ]
   ],
   lastUpdated: true,
+  markdown: {
+    lineNumbers: true,
+  },
   base: '/vitePress/',
   themeConfig: {
     siteTitle: 'Blog',
