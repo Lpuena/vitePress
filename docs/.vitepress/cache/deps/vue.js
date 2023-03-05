@@ -1572,7 +1572,7 @@ var ErrorTypeStrings = {
   [
     14
     /* ErrorCodes.SCHEDULER */
-  ]: "scheduler flush. This is likely a vue internals bug. Please open an issue at https://new-issue.vuejs.org/?repo=vuejs/core"
+  ]: "scheduler flush. This is likely a Vue internals bug. Please open an issue at https://new-issue.vuejs.org/?repo=vuejs/core"
 };
 function callWithErrorHandling(fn, instance, type, args) {
   let res;

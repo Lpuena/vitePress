@@ -24,15 +24,17 @@
 
     - 将全局的API，即：```Vue.xxx```调整到应用实例（```app```）上
 
-  |2.x 全局 API（```Vue```）|3.x 实例 API (`app`)|
-  |---|---|
-  | Vue.config.xxxx           | app.config.xxxx                            |
-  | Vue.config.productionTip  | <strong style="color:#DD5145">移除</strong>  |
-  | Vue.component             | app.component                              |
-  | Vue.directive             | app.directive                              |
-  | Vue.mixin                 | app.mixin                                  |
-  | Vue.use                   | app.use                                    |
-  | Vue.prototype             | app.config.globalProperties                |
+| 2.x 全局 API（```Vue```）    | 3.x 实例 API (`app`)                        |
+|--------------------------|-------------------------------------------|
+| Vue.config.xxxx          | app.config.xxxx                           |
+| Vue.config.productionTip | <strong style="color:#DD5145">移除</strong> |
+| Vue.component            | app.component                             |
+| Vue.directive            | app.directive                             |
+| Vue.mixin                | app.mixin                                 |
+| Vue.use                  | app.use                                   |
+| Vue.prototype            | app.config.globalProperties               |
+
+
     
 
 ## 2.其他改变

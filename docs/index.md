@@ -6,7 +6,7 @@ hero:
   text: Personal blog based on vitePress.
   tagline: Web Node.js...
   image:
-    src: /vite.jpeg
+    src: /vite.svg
     alt: VitePress
   actions:
     - theme: brand

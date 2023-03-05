@@ -1,6 +1,6 @@
 import {defineConfig} from 'vitepress'
 
-export default {
+export default defineConfig({
   head:[
     [
       'link',
@@ -11,20 +11,20 @@ export default {
   base: '/vitePress/',
   themeConfig: {
     siteTitle: 'Blog',
-    logo: '/vite.svg',
+    logo: '/32.png',
     nav: [
       {text: 'Git', link: '/git/Git'},
       {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
-      {text: 'JS', link: '/js/', activeMatch: '/js/'},
+      // {text: 'JS', link: '/js/', activeMatch: '/js/'},
       {
-        text: 'Dropdown Menu',
+        text: 'TypeScript',
         items: [
           {
             // Title for the section.
-            text: 'Section A Title',
+            // text: 'Section A Title',
             items: [
-              {text: 'Section A Item A', link: '...'},
-              {text: 'Section B Item B', link: '...'}
+              {text: 'TypeScript', link: '/ts/'},
+              {text: 'JavaScript', link: '/js/'}
             ]
           }
         ]
@@ -33,9 +33,21 @@ export default {
       {text: 'About', link: '/about'},
     ],
     sidebar: {
+      '/ts/': [
+        {
+          text: 'TypeScript',
+          collapsible: true,
+          collapsed: false, //默认展开
+          items: [
+            // This shows `/guide/index.md` page.(必须有index.md)
+            {text: '一、TypeScript简介', link: '/ts/'},
+            {text: '二、面向对象', link: '/ts/面向对象'},
+          ]
+        }
+      ],
       '/js/': [
         {
-          text: 'JS',
+          text: 'JavaScript',
           collapsible: true,
           collapsed: false, //默认展开
           items: [
@@ -64,4 +76,4 @@ export default {
     }
   },
 
-}
+})
