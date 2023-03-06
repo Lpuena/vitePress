@@ -110,6 +110,9 @@
   ```typescript
   let color: 'red' | 'blue' | 'black';
   let num: 1 | 2 | 3 | 4 | 5;
+  
+  #也可以定义类型选择
+  let a : string | boolean
   ```
 
 - any
