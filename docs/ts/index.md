@@ -154,7 +154,11 @@
   ```typescript
     let list: number[] = [1, 2, 3];
     let list: Array<number> = [1, 2, 3];
-    ```
+  
+    #元组(固定长度的数组)
+    let list: [string,string]
+    h = ['hello','nihao']
+  ```
 
 - tuple
 

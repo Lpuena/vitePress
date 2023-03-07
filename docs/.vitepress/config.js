@@ -56,7 +56,7 @@ export default defineConfig({
           items: [
             // This shows `/guide/index.md` page.(必须有index.md)
             {text: 'JS常见问题', link: '/js/'},
-            // {text: '地址引用问题', link: '/js/地址引用问题'},
+            {text: 'JS数组', link: '/js/数组'},
           ]
         }
       ],
