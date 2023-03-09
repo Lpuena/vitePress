@@ -433,45 +433,45 @@
                         - 是否生成sourceMap
                         - 默认值：false
 
-    - 严格检查
-        - strict
-          - 启用所有的严格检查，默认值为true，设置后相当于开启了所有的严格检查
-        - alwaysStrict
-          - 总是以严格模式对代码进行编译
-        - noImplicitAny
-          - 禁止隐式的any类型
-        - noImplicitThis
-          - 禁止类型不明确的this
-        - strictBindCallApply
-          - 严格检查bind、call和apply的参数列表
-        - strictFunctionTypes
-          - 严格检查函数的类型
-        - strictNullChecks
-          - 严格的空值检查
-        - strictPropertyInitialization
-          - 严格检查属性是否初始化
+                - 严格检查
+                    - strict
+                      - 启用所有的严格检查，默认值为true，设置后相当于开启了所有的严格检查
+                    - alwaysStrict
+                      - 总是以严格模式对代码进行编译
+                    - noImplicitAny
+                      - 禁止隐式的any类型
+                    - noImplicitThis
+                      - 禁止类型不明确的this
+                    - strictBindCallApply
+                      - 严格检查bind、call和apply的参数列表
+                    - strictFunctionTypes
+                      - 严格检查函数的类型
+                    - strictNullChecks
+                      - 严格的空值检查
+                    - strictPropertyInitialization
+                      - 严格检查属性是否初始化
 
-   - 额外检查
+                - 额外检查
 
-     - noFallthroughCasesInSwitch
-       - 检查switch语句包含正确的break
-     - noImplicitReturns
-       - 检查函数没有隐式的返回值
-     - noUnusedLocals
-       - 检查未使用的局部变量
-     - noUnusedParameters
-       - 检查未使用的参数
+                  - noFallthroughCasesInSwitch
+                    - 检查switch语句包含正确的break
+                  - noImplicitReturns
+                    - 检查函数没有隐式的返回值
+                  - noUnusedLocals
+                    - 检查未使用的局部变量
+                  - noUnusedParameters
+                    - 检查未使用的参数
 
-   - 高级
+                - 高级
 
-     - allowUnreachableCode
-       - 检查不可达代码
-       - 可选值：
-         - true，忽略不可达代码
-         - false，不可达代码将引起错误
-     - noEmitOnError
-       - 有错误的情况下不进行编译
-       - 默认值：false
+                  - allowUnreachableCode
+                    - 检查不可达代码
+                    - 可选值：
+                      - true，忽略不可达代码
+                      - false，不可达代码将引起错误
+                  - noEmitOnError
+                    - 有错误的情况下不进行编译
+                    - 默认值：false
 
 ## 4、webpack
 
