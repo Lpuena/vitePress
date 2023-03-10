@@ -32,10 +32,33 @@ export default defineConfig({
           }
         ]
       },
+      {text: 'Webpack', link: '/webpack/', activeMatch: '/webpack/'},
       // {text: 'Github', link: 'https://github.com/Lpuena'},
       {text: 'About', link: '/about'},
     ],
     sidebar: {
+      '/webpack/': [
+        {
+          text: '基础',
+          collapsible: true,
+          collapsed: false, //默认展开
+          items: [
+            // This shows `/guide/index.md` page.(必须有index.md)
+            {text: '前言', link: '/webpack/'},
+            {text: '基本使用', link: '/webpack/基本使用'},
+          ]
+        },
+        {
+          text: '高级',
+          collapsible: true,
+          collapsed: false, //默认展开
+          items: [
+            // This shows `/guide/index.md` page.(必须有index.md)
+            {text: '前言', link: '/webpack/'},
+            // {text: '二、面向对象', link: '/webpack/'},
+          ]
+        }
+      ],
       '/ts/': [
         {
           text: 'TypeScript',
