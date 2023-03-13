@@ -46,6 +46,10 @@ export default defineConfig({
             // This shows `/guide/index.md` page.(必须有index.md)
             {text: '前言', link: '/webpack/'},
             {text: '基本使用', link: '/webpack/基本使用'},
+            {text: '基本配置', link: '/webpack/基本配置'},
+            {text: '开发模式介绍', link: '/webpack/开发模式介绍'},
+            {text: '处理样式资源', link: '/webpack/处理样式资源'},
+            // {text: '处理样式资源', link: '/webpack/处理样式资源'},
           ]
         },
         {
