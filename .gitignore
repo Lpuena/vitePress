@@ -20,4 +20,4 @@ docs/js/1
 *.sln
 *.local
 
-package-lock.json
+#package-lock.json
