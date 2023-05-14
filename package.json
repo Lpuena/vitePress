@@ -1,0 +1,22 @@
+{
+  "name": "vitePress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "flexsearch": "^0.7.31",
+    "markdown-it": "^13.0.1",
+    "vite": "^4.1.4",
+    "vitepress": "^1.0.0-alpha.48",
+    "vitepress-plugin-search": "^1.0.4-alpha.19",
+    "vue": "^3.2.47"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue-jsx": "^3.0.0"
+  }
+}
