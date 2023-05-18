@@ -198,6 +198,63 @@ onMounted(() => {
 
 ```
 
+## 父子组件的v-model传值
+
+一个组件上的 `v-model` 默认会利用名为 `value` 的 prop 和名为 `input` 的事件，
+但是像单选框、复选框等类型的输入控件可能会将 `value` attribute 用于不同的目的。`model` 选项可以用来避免这样的冲突：
+
+### 在父组件中
+
+```html
+
+<DomDialog v-model="isDomDialog"></DomDialog> 
+```
+
+等同于如下常规写法：
+
+```html
+
+<DomDialog v-bind:value="isDomDialog" v-on:input="isDomDialog=$event">
+</DomDialog> 
+```
+
+或者：
+
+```html
+
+<DomDialog :value="isDomDialog" @input="isDomDialog=$event"></DomDialog>
+```
+
+### 在子组件中的接收与传值
+
+```vue
+
+<script>
+export default {
+	props: {
+		value: {type: Boolean,}
+	},
+	data() {
+		return {
+			dialogVisible: false,
+		}
+	},
+	watch: {
+		value(val) {
+			this.dialogVisible = val
+		},
+	},
+	methods: {
+		// 关闭弹窗触发
+		confrim() {
+			this.$emit('input', false)         // 通过 this.$emit() 向父组件传值
+		}
+	},
+}
+</script>
+
+```
+
 ## 递归组件的用法
 
 ### 父组件
