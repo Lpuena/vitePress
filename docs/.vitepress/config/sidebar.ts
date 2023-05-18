@@ -138,6 +138,8 @@ export default {
         {text: '四、Composition API 的优势 ', link: '/vue/five.md'},
         {text: '五、新的组件 ', link: '/vue/six.md'},
         {text: '六、其它', link: '/vue/seven.md'},
+        {text: '组件传参', link: '/vue/传参.md'},
+        {text: '自定义指令', link: '/vue/自定义指令.md'},
         {text: '案例', link: '/vue/案例'},
       ]
     },

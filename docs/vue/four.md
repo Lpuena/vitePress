@@ -126,6 +126,87 @@ let keyword = myRef('hello', 500) //使用程序员自定义的ref
      }
      ```
 
+### 依赖注入 Provide / Inject
+
+通常，当我们需要从父组件向子组件传递数据时，我们使用 props。想象一下这样的结构：有一些深度嵌套的组件，而深层的子组件只需要父组件的部分内容。在这种情况下，如果仍然将
+prop 沿着组件链逐级传递下去，可能会很麻烦。
+
+官网的解释很让人疑惑，那我翻译下这几句话：
+
+provide 可以在祖先组件中指定我们想要提供给后代组件的数据或方法，而在任何后代组件中，我们都可以使用 inject 来接收 provide
+提供的数据或方法。
+
+![image](/provide.png)
+
+例子：
+
+- 父组件
+
+```vue
+
+<template>
+	<div class="App">
+		<button>我是App</button>
+		<A></A>
+	</div>
+</template>
+
+<script setup lang='ts'>
+import {provide, ref} from 'vue'
+import A from './components/A.vue'
+
+let flag = ref<number>(1)
+provide('flag', flag)
+</script>
+
+<style>
+.App {
+	background: blue;
+	color: #fff;
+}
+</style>
+```
+
+- 子组件
+
+```vue
+
+<template>
+	<div style="background-color: green;">
+		我是B
+		<button @click="change">change falg</button>
+		<div>{{ flag }}</div>
+	</div>
+</template>
+
+<script setup lang='ts'>
+import {inject, Ref, ref} from 'vue'
+//ref(1)是默认值
+const flag = inject<Ref<number>>('flag', ref(1))
+const change = () => {
+	flag.value = 2
+}
+</script>
+
+<style>
+</style>
+```
+
+:::tip
+你如果传递普通的值 是不具有响应式的 需要通过ref reactive 添加响应式
+
+注意:
+
+注入的值可以是 `undefined`，因为无法保证提供者一定会在运行时 `provide` 这个值。
+
+当提供了一个默认值后，这个 `undefined` 类型就可以被移除：
+:::
+使用场景
+
+当父组件有很多数据需要分发给其子代组件的时候， 就可以使用provide和inject。
+
+
+
 ## 6.响应式数据的判断
 
 - isRef: 检查一个值是否为一个 ref 对象
