@@ -13,7 +13,7 @@ interface 和 type //声明全局类型
 
 ```
 例如我们有一个 `express` 和 `axios`
-![image](../public/声明文件.png)
+![image](/声明文件.png)
 
 发现 `express` 报错了，让我们去下载他的声明文件
 ```shell

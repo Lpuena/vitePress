@@ -141,6 +141,7 @@ export default {
         {text: '六、其它', link: '/vue/seven.md'},
         {text: '组件传参', link: '/vue/传参.md'},
         {text: '自定义指令', link: '/vue/自定义指令.md'},
+        {text: '自定义Hooks(组合式函数)', link: '/vue/自定义Hooks'},
         {text: '案例', link: '/vue/案例'},
       ]
     },
