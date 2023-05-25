@@ -21,7 +21,9 @@ Vue3 的自定义的hook
 Vue3 hook 库 [Get Started | VueUse](https://vueuse.org/guide/)
 
 ## 案例：将图片转换成base64
+
 调用组件
+
 ```vue
 
 <template>
@@ -42,7 +44,9 @@ useBase64({el: "#img"}).then(res => {
 
 </style>
 ```
+
 Hooks/index.ts
+
 ```ts
 import {onMounted} from "vue";
 
@@ -71,7 +75,73 @@ export default function (options: Options): Promise<{ baseUrl: string }> {
       return canvas.toDataURL('image/png')
     }
   })
-  
-  
+
+
 }
 ```
+
+## 案例二
+
+自定义指令 + hooks 双管齐下
+
+实现一个监听元素变化的hook
+
+主要会用到一个新的API resizeObserver 兼容性一般 可以做polyfill
+
+但是他可以监听元素的变化 执行回调函数 返回 contentRect 里面有变化之后的宽高。
+
+### 初始化环境
+
+根目录：
+
+- 生成package.json
+
+````shell
+npm init -y
+````
+
+- 生成tsconfig.json
+
+```shell
+tsc --init
+```
+
+- 生成index.d.ts声明文件
+- 新建vite.config.ts文件
+- 安装vue
+
+```shell
+npm i vue -D
+```
+
+- 安装vite
+
+```shell
+npm i vite -D
+```
+### src/index.ts
+```ts
+import {App} from 'vue'
+// InterSectionObserver 主要侦听元素是否在视口内
+// MutationObserver 主要侦听子集的变化，还有属性的变化 以及 增删改查
+// ResizeObserver  主要侦听元素宽高的变化
+function useResize(el: HTMLElement, callback: Function) {
+  let resize = new ResizeObserver((entries) => {
+    callback(entries[0].contentRect)
+  })
+  resize.observe(el)
+}
+
+const install = (app: App) => {
+  app.directive('resize', {
+    mounted(el, binding) {
+      useResize(el, binding.value)
+    }
+  })
+}
+
+useResize.install = install
+
+export default useResize
+```
+

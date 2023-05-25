@@ -142,6 +142,7 @@ export default {
         {text: '组件传参', link: '/vue/传参.md'},
         {text: '自定义指令', link: '/vue/自定义指令.md'},
         {text: '自定义Hooks(组合式函数)', link: '/vue/自定义Hooks'},
+        {text: 'Vue3全局注册', link: '/vue/全局注册'},
         {text: '案例', link: '/vue/案例'},
       ]
     },
