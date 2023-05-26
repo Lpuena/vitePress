@@ -143,6 +143,8 @@ export default {
         {text: '自定义指令', link: '/vue/自定义指令.md'},
         {text: '自定义Hooks(组合式函数)', link: '/vue/自定义Hooks'},
         {text: 'Vue3全局注册', link: '/vue/全局注册'},
+        {text: 'event loop 和 nextTick', link: '/vue/nextTick'},
+        {text: 'css', link: '/vue/css'},
         {text: '案例', link: '/vue/案例'},
       ]
     },
