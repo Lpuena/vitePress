@@ -6,7 +6,7 @@ import sidebar from "./config/sidebar";
 export default defineConfig({
   // title:'Vite',
   head: [
-    ['link', {rel: 'icon', type: 'image/svg+xml', href: 'https://lpuena.github.io/vitePress/vite.svg'}],
+    ['link', {rel: 'icon', type: 'image/svg+xml', href: 'https://lpuena.github.io/vitePress/32.png'}],
   ],
   lastUpdated: true,
   markdown: {
