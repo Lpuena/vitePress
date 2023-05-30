@@ -17,6 +17,8 @@
     "vue": "^3.2.47"
   },
   "dependencies": {
-    "@vitejs/plugin-vue-jsx": "^3.0.0"
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "sass": "^1.62.1",
+    "vitepress-plugin-image-viewer": "^1.1.2"
   }
 }

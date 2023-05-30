@@ -316,15 +316,15 @@ Tailwind CSS 是一个由js编写的CSS 框架 他是基于postCss 去解析的
 postCss 功能介绍
 
 1. 增强代码的可读性 （利用从 Can I Use 网站获取的数据为 CSS 规则添加特定厂商的前缀。 Autoprefixer
-自动获取浏览器的流行度和能够支持的属性，并根据这些数据帮你自动为 CSS 规则添加前缀。）
+   自动获取浏览器的流行度和能够支持的属性，并根据这些数据帮你自动为 CSS 规则添加前缀。）
 
 2. 将未来的 CSS 特性带到今天！（PostCSS Preset Env 帮你将最新的 CSS 语法转换成大多数浏览器都能理解的语法，并根据你的目标浏览器或运行时环境来确定你需要的
-polyfills，此功能基于 cssdb 实现。）
+   polyfills，此功能基于 cssdb 实现。）
 
 3. 终结全局 CSS（CSS 模块 能让你你永远不用担心命名太大众化而造成冲突，只要用最有意义的名字就行了。）
 
 4. 避免 CSS 代码中的错误（通过使用 stylelint 强化一致性约束并避免样式表中的错误。stylelint 是一个现代化 CSS 代码检查工具。它支持最新的
-CSS 语法，也包括类似 CSS 的语法，例如 SCSS 。）
+   CSS 语法，也包括类似 CSS 的语法，例如 SCSS 。）
 
 postCss 处理 tailWind Css 大致流程
 
@@ -388,15 +388,20 @@ module.exports = {
 @tailwind components;
 @tailwind utilities;
 ```
+
 6. 在 main.ts 引入
+
 ```ts
 import './Tailwind/index.css'
 ```
+
 最后 `npm run dev` 就可以运行了
+
 ```vue
+
 <template>
 	<div class="w-screen h-screen bg-red-400 flex justify-center items-center text-8xl text-slate-100">
-	hello Tailwind
+		hello Tailwind
 	</div>
 </template>
 
@@ -408,3 +413,125 @@ import './Tailwind/index.css'
 
 </style>
 ```
+
+## 什么是css原子化？
+
+CSS原子化的优缺点
+
+1.减少了css体积，提高了css复用
+
+2.减少起名的复杂度
+
+3.增加了记忆成本 将css拆分为原子之后，你势必要记住一些class才能书写，哪怕tailwindcss提供了完善的工具链，你写background，也要记住开头是bg
+
+### 接入unocss
+
+**tips：最好用于vite，webpack属于阉割版功能很少**
+
+安装
+
+```shell
+npm i -D unocss
+```
+
+vite.config.ts
+
+```ts
+import unocss from 'unocss/vite'
+
+plugins: [vue(), vueJsx(), unocss({
+  rules: []
+})],
+```
+
+main.ts 引入
+
+```ts
+import 'uno.css'
+```
+
+配置静态css，在vite.config.ts中
+
+```ts
+rules: [
+  ['flex', {display: "flex"}]
+]
+```
+
+![img](/unocss.png)
+
+配置动态css（使用正则表达式）
+
+`m-`参数*10 例如 `m-10` 就是 `margin:100px`
+
+```ts
+rules: [
+  [/^m-(\d+)$/, ([, d]) => ({margin: `${Number(d) * 10}px`})],
+  ['flex', {display: "flex"}]
+]
+
+```
+
+![img](/unocss2.png)
+
+shortcuts 可以自定义组合样式
+
+```ts
+  plugins: [vue(), vueJsx(), unocss({
+  rules: [
+    [/^m-(\d+)$/, ([, d]) => ({margin: `${Number(d) * 10}px`})],
+    ['flex', {display: "flex"}],
+    ['pink', {color: 'pink'}]
+  ],
+  shortcuts: {
+    btn: "pink flex"
+  }
+})],
+```
+
+![img](/unocss3.png)
+
+### unocss 预设
+
+```ts
+import {presetIcons, presetAttributify, presetUno} from 'unocss'
+
+...
+presets:[presetIcons(), presetAttributify(), presetUno()]
+```
+
+#### 1. presetIcons Icon图标预设
+
+图标集合安装
+
+```shell
+npm i -D @iconify-json/ic
+```
+
+首先我们去[icones](https://icones.js.org/)官网（方便浏览和使用iconify）浏览我们需要的icon，比如这里我用到了Google Material
+Icons图标集里面的baseline-add-circle图标
+
+```html
+
+<div class="i-ic-baseline-backspace text-3xl bg-green-500"/>
+```
+
+#### 2. presetAttributify 属性化模式支持
+
+属性语义化 无须class
+
+```html
+
+<div font="black">
+  btn
+</div>
+```
+
+![img](/unocss4.png)
+
+#### 3. presetUno 工具类预设
+
+默认的 [@unocss/preset-uno](https://github.com/unocss/unocss/tree/main/packages/preset-uno) 预设（实验阶段）是一系列流行的原子化框架的
+通用超集，包括了 Tailwind CSS，Windi CSS，Bootstrap，Tachyons 等。
+
+例如，ml-3（Tailwind），ms-2（Bootstrap），ma4（Tachyons），mt-10px（Windi CSS）均会生效。

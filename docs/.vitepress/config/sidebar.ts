@@ -145,6 +145,7 @@ export default {
         {text: 'Vue3全局注册', link: '/vue/全局注册'},
         {text: 'event loop 和 nextTick', link: '/vue/nextTick'},
         {text: 'css', link: '/vue/css'},
+        {text: '移动端', link: '/vue/移动端'},
         {text: '案例', link: '/vue/案例'},
       ]
     },

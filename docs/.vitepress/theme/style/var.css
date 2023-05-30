@@ -136,3 +136,6 @@
 .dark .vp-doc .custom-block a {
     transition: color 0.25s;
 }
+.main img {
+    cursor: zoom-in; /* 移动到图片上，可放大 */
+}
