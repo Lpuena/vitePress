@@ -146,6 +146,8 @@ export default {
         {text: 'event loop 和 nextTick', link: '/vue/nextTick'},
         {text: 'css', link: '/vue/css'},
         {text: '移动端', link: '/vue/移动端'},
+        {text: '函数式编程', link: '/vue/函数式编程'},
+        {text: 'electron', link: '/vue/electron'},
         {text: '案例', link: '/vue/案例'},
       ]
     },
