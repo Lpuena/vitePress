@@ -1,5 +1,5 @@
 # Pinia
-<img src="https://pinia.vuejs.org/logo.svg" alt="" width="100px" height="100px" style="margin-left: 20rem" >
+<img src="https://pinia.vuejs.org/logo.svg" alt="" width="100px" height="100px" style="margin-left: 8rem" >
 
 ## Pinia.js特点：
 
