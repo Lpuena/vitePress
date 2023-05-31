@@ -148,6 +148,9 @@ export default {
         {text: '移动端', link: '/vue/移动端'},
         {text: '函数式编程', link: '/vue/函数式编程'},
         {text: 'electron', link: '/vue/electron'},
+        {text: 'Vue+webpack', link: '/vue/webpack'},
+        {text: 'Proxy跨域', link: '/vue/Proxy跨域'},
+        {text: 'Pinia', link: '/vue/Pinia'},
         {text: '案例', link: '/vue/案例'},
       ]
     },

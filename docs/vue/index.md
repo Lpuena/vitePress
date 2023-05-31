@@ -910,3 +910,15 @@ export default ({mode}:any) => {
 } 
 ```
 我们就可以通过环境变量这个值 做一些事情比如 切换接口url 等 
+:::tip
+本地起项目，可以使用http-server
+，全局安装`npm install -g http-server`
+
+在目标文件夹中使用
+`http-server -p 9002`命令 后面是端口号
+:::
+## 性能优化
+[详情CSDN(小满zs)](https://xiaoman.blog.csdn.net/article/details/126811832)
+
+## Vue3 Web Components
+[详情CSDN(小满)](https://xiaoman.blog.csdn.net/article/details/127328300)
