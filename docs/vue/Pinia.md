@@ -223,28 +223,33 @@ const Add = () => {
 
 </script>
 ```
+
 5. 通过actions修改
 
 定义Actions，在actions 中直接使用this就可以指到state里面的值
+
 ```ts
-import { defineStore } from 'pinia'
-import { Names } from './store-naspace'
+import {defineStore} from 'pinia'
+import {Names} from './store-naspace'
+
 export const useTestStore = defineStore(Names.TEST, {
-     state:()=>{
-         return {
-            current:1,
-            age:30
-         }
-     },
- 
-     actions:{
-         setCurrent () {
-             this.current++
-         }
-     }
+  state: () => {
+    return {
+      current: 1,
+      age: 30
+    }
+  },
+  
+  actions: {
+    setCurrent() {
+      this.current++
+    }
+  }
 })
 ```
+
 使用方法直接在实例中调用
+
 ```vue
 
 <script setup lang='ts'>
@@ -252,28 +257,33 @@ import {useTestStore} from './store'
 
 const Test = useTestStore()
 const Add = () => {
-   Test.setCurrent()
+	Test.setCurrent()
 }
 </script>
 ```
+
 ## 解构store
+
 在 Pinia 是不允许直接解构是会失去响应性的
+
 ```ts
 const Test = useTestStore()
 const {current, name} = Test
 console.log(current, name);
 ```
+
 差异对比:
 
 修改从 Test中解构出来的 current 数据不会变，而源数据Test.current是会变的
+
 ```vue
 
 <template>
-   <div>origin value {{Test.current}}</div>
-   <div>
-      pinia:{{ current }}--{{ name }}
-      <button @click="change">change</button>
-   </div>
+	<div>origin value {{Test.current}}</div>
+	<div>
+		pinia:{{ current }}--{{ name }}
+		<button @click="change">change</button>
+	</div>
 </template>
 
 <script setup lang='ts'>
@@ -282,7 +292,7 @@ import {useTestStore} from './store'
 const Test = useTestStore()
 
 const change = () => {
-   Test.current++
+	Test.current++
 }
 
 const {current, name} = Test
@@ -292,62 +302,189 @@ console.log(current, name);
 
 </script>
 ```
+
 解决方案可以使用 `storeToRefs`
+
 ```ts
-import { storeToRefs } from 'pinia'
- 
+import {storeToRefs} from 'pinia'
+
 const Test = useTestStore()
- 
-const { current, name } = storeToRefs(Test)
+
+const {current, name} = storeToRefs(Test)
 ```
+
 其原理跟 `toRefs` 一样的给里面的数据包裹一层 `toref`
 
 源码 通过 `toRaw` 使 `store` 变回原始数据防止重复代理
 
-循环 `store` 通过 `isRef` `isReactive` 判断 如果是响应式对象直接拷贝一份给 `refs` 对象 将其原始对象包裹 `toRef` 使其变为响应式对象 
-
+循环 `store` 通过 `isRef` `isReactive` 判断 如果是响应式对象直接拷贝一份给 `refs` 对象 将其原始对象包裹 `toRef`
+使其变为响应式对象
 
 ## Actions（支持同步异步）
+
 1. 同步方法，直接调用即可
+
 ```ts
-import { defineStore } from 'pinia'
-import { Names } from './store-naspace'
+import {defineStore} from 'pinia'
+import {Names} from './store-naspace'
+
 export const useTestStore = defineStore(Names.TEST, {
-    state: () => ({
-        counter: 0,
-    }),
-    actions: {
-        increment() {
-            this.counter++
-        },
-        randomizeCounter() {
-            this.counter = Math.round(100 * Math.random())
-        },
+  state: () => ({
+    counter: 0,
+  }),
+  actions: {
+    increment() {
+      this.counter++
     },
+    randomizeCounter() {
+      this.counter = Math.round(100 * Math.random())
+    },
+  },
 })
 ```
+
 文件使用
+
 ```vue
+
 <template>
-     <div>
-         <button @click="Add">+</button>
-          <div>
-             {{Test.counter}}
-          </div>    
-     </div>
+	<div>
+		<button @click="Add">+</button>
+		<div>
+			{{Test.counter}}
+		</div>
+	</div>
 </template>
- 
+
 <script setup lang='ts'>
 import {useTestStore} from './store'
+
 const Test = useTestStore()
 const Add = () => {
-     Test.randomizeCounter()
+	Test.randomizeCounter()
 }
- 
+
 </script>
- 
+
 <style>
- 
+
 </style>
 ```
+
 2. 异步，可以结合async await修饰
+
+```ts
+import {defineStore} from 'pinia'
+import {Names} from './store-naspace'
+
+type Result = {
+  name: string
+  isChu: boolean
+}
+
+const Login = (): Promise<Result> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        name: '小满',
+        isChu: true
+      })
+    }, 3000)
+  })
+}
+
+export const useTestStore = defineStore(Names.TEST, {
+  state: () => ({
+    user: <Result>{},
+    name: "123"
+  }),
+  actions: {
+    async getLoginInfo() {
+      const result = await Login()
+      this.user = result;
+    }
+  },
+})
+```
+
+引用
+
+```vue
+
+<template>
+	<div>
+		<button @click="Add">test</button>
+		<div>
+			{{Test.user}}
+		</div>
+	</div>
+</template>
+
+<script setup lang='ts'>
+import {useTestStore} from './store'
+
+const Test = useTestStore()
+const Add = () => {
+	Test.getLoginInfo()
+}
+
+</script>
+
+```
+
+3. 多个action互相调用
+
+```ts
+export const useTestStore = defineStore(Names.TEST, {
+  state: () => ({
+    user: <Result>{},
+    name: "default"
+  }),
+  actions: {
+    async getLoginInfo() {
+      const result = await Login()
+      this.user = result;
+      this.setName(result.name)
+    },
+    setName(name: string) {
+      this.name = name;
+    }
+  }
+})
+```
+
+## getters
+
+1.使用箭头函数不能使用this this指向已经改变指向undefined 修改值请用state
+
+主要作用类似于computed 数据修饰并且有缓存
+
+```ts
+export const useTestStore = defineStore(Names.TEST, {
+  getters: {
+    newPrice: (state) => `$${state.user.price}`
+  }
+})
+```
+2. 普通函数形式可以使用this
+```ts
+export const useTestStore = defineStore(Names.TEST, {
+  getters: {
+    newCurrent(): number {
+      return ++this.current
+    }
+  },
+})
+```
+3. getters 互相调用
+```ts
+export const useTestStore = defineStore(Names.TEST, {
+  getters: {
+    newCurrent(): number | string {
+      return ++this.current + this.newName
+    },
+    newName(): string {
+      return `$-${this.name}`
+    }
+  },
+```
