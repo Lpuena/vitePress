@@ -99,29 +99,31 @@ import {defineStore} from 'pinia'
 import {Names} from './store-namespce'
 
 export const useTestStore = defineStore(Names.Test, {
-   state: () => {
-      return {
-         current: 1
-      }
-   },
-   //类似于computed 可以帮我们去修饰我们的值
-   getters: {},
-   //可以操作异步 和 同步提交state
-   actions: {}
+  state: () => {
+    return {
+      current: 1
+    }
+  },
+  //类似于computed 可以帮我们去修饰我们的值
+  getters: {},
+  //可以操作异步 和 同步提交state
+  actions: {}
 })
 ```
 
 ## 修改state中的值
+
 1. 直接修改 state 中的值 例如current++
+
 ```vue
 
 <template>
-   <div>
-      <button @click="Add">+</button>
-      <div>
-         {{Test.current}}
-      </div>
-   </div>
+	<div>
+		<button @click="Add">+</button>
+		<div>
+			{{Test.current}}
+		</div>
+	</div>
 </template>
 
 <script setup lang='ts'>
@@ -129,27 +131,30 @@ import {useTestStore} from './store'
 
 const Test = useTestStore()
 const Add = () => {
-   Test.current++
+	Test.current++
 }
 
 </script>
 ```
+
 :::tip
 在Vuex中，不允许直接修改state中的数据，Pinia中可以直接修改
 :::
+
 2. 通过$patch方法修改(批量修改)
+
 ```vue
 
 <template>
-   <div>
-      <button @click="Add">+</button>
-      <div>
-         {{Test.current}}
-      </div>
-      <div>
-         {{Test.age}}
-      </div>
-   </div>
+	<div>
+		<button @click="Add">+</button>
+		<div>
+			{{Test.current}}
+		</div>
+		<div>
+			{{Test.age}}
+		</div>
+	</div>
 </template>
 
 <script setup lang='ts'>
@@ -157,12 +162,146 @@ import {useTestStore} from './store'
 
 const Test = useTestStore()
 const Add = () => {
-   Test.$patch({
-      current: 200,
-      age: 300
-   })
+	Test.$patch({
+		current: 200,
+		age: 300
+	})
 }
 
 </script>
 
 ```
+
+3. 批量修改函数形式
+
+> 推荐使用函数形式 可以自定义修改逻辑
+
+```vue
+
+<template>
+	<div>
+		<button @click="Add">+</button>
+		<div>
+			{{Test.current}}
+		</div>
+		<div>
+			{{Test.age}}
+		</div>
+	</div>
+</template>
+
+<script setup lang='ts'>
+import {useTestStore} from './store'
+
+const Test = useTestStore()
+const Add = () => {
+	Test.$patch((state) => {
+		state.current++;
+		state.age = 40
+	})
+}
+
+</script>
+```
+
+4. 通过原始对象修改整个实例
+
+> `$state` 可以通过将 store 的属性设置为新对象来替换 store 的整个状态，缺点就是必须修改整个对象的所有属性
+
+```vue
+
+<script setup lang='ts'>
+import {useTestStore} from './store'
+
+const Test = useTestStore()
+const Add = () => {
+	Test.$state = {
+		current: 10,
+		age: 30
+	}
+}
+
+</script>
+```
+5. 通过actions修改
+
+定义Actions，在actions 中直接使用this就可以指到state里面的值
+```ts
+import { defineStore } from 'pinia'
+import { Names } from './store-naspace'
+export const useTestStore = defineStore(Names.TEST, {
+     state:()=>{
+         return {
+            current:1,
+            age:30
+         }
+     },
+ 
+     actions:{
+         setCurrent () {
+             this.current++
+         }
+     }
+})
+```
+使用方法直接在实例中调用
+```vue
+
+<script setup lang='ts'>
+import {useTestStore} from './store'
+
+const Test = useTestStore()
+const Add = () => {
+   Test.setCurrent()
+}
+</script>
+```
+## 解构store
+在 Pinia 是不允许直接解构是会失去响应性的
+```ts
+const Test = useTestStore()
+const {current, name} = Test
+console.log(current, name);
+```
+差异对比:
+
+修改从 Test中解构出来的 current 数据不会变，而源数据Test.current是会变的
+```vue
+
+<template>
+   <div>origin value {{Test.current}}</div>
+   <div>
+      pinia:{{ current }}--{{ name }}
+      <button @click="change">change</button>
+   </div>
+</template>
+
+<script setup lang='ts'>
+import {useTestStore} from './store'
+
+const Test = useTestStore()
+
+const change = () => {
+   Test.current++
+}
+
+const {current, name} = Test
+
+console.log(current, name);
+
+
+</script>
+```
+解决方案可以使用 `storeToRefs`
+```ts
+import { storeToRefs } from 'pinia'
+ 
+const Test = useTestStore()
+ 
+const { current, name } = storeToRefs(Test)
+```
+其原理跟 `toRefs` 一样的给里面的数据包裹一层 `toref`
+
+源码 通过 `toRaw` 使 `store` 变回原始数据防止重复代理
+
+循环 `store` 通过 `isRef` `isReactive` 判断 如果是响应式对象直接拷贝一份给 `refs` 对象 将其原始对象包裹 `toRef` 使其变为响应式对象 
