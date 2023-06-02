@@ -486,5 +486,55 @@ export const useTestStore = defineStore(Names.TEST, {
     newName(): string {
       return `$-${this.name}`
     }
-  },
+  }
+})
+```
+
+## API
+### $reset
+重置store到他的初始状态
+```ts
+import {useTestStore} from "@/stores";
+
+const Test = useTestStore()
+Test.$reset()
+```
+### 订阅state的改变
+类似于 Vuex 的 subscribe  只要有 state 的变化就会走这个函数
+```ts
+Test.$subscribe((args,state)=>{
+   console.log(args,state);
+})
+```
+返回值
+![img](/pinia.png)
+
+第二个参数
+
+如果你的组件卸载之后还想继续调用请设置第二个参数
+```ts
+Test.$subscribe((args,state)=>{
+   console.log(args,state);
+   
+},{
+  detached:true
+})
+```
+
+### 订阅Actions的调用
+只要有actions被调用就会走这个函数
+```ts
+Test.$onAction((args)=>{
+   console.log(args);
+   
+})
+```
+第二个参数
+
+组件被卸载后依旧保留，使用第二个参数
+```ts
+Test.$onAction((args)=>{
+   console.log(args);
+   
+},true)
 ```
