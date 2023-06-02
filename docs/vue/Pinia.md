@@ -305,3 +305,49 @@ const { current, name } = storeToRefs(Test)
 源码 通过 `toRaw` 使 `store` 变回原始数据防止重复代理
 
 循环 `store` 通过 `isRef` `isReactive` 判断 如果是响应式对象直接拷贝一份给 `refs` 对象 将其原始对象包裹 `toRef` 使其变为响应式对象 
+
+
+## Actions（支持同步异步）
+1. 同步方法，直接调用即可
+```ts
+import { defineStore } from 'pinia'
+import { Names } from './store-naspace'
+export const useTestStore = defineStore(Names.TEST, {
+    state: () => ({
+        counter: 0,
+    }),
+    actions: {
+        increment() {
+            this.counter++
+        },
+        randomizeCounter() {
+            this.counter = Math.round(100 * Math.random())
+        },
+    },
+})
+```
+文件使用
+```vue
+<template>
+     <div>
+         <button @click="Add">+</button>
+          <div>
+             {{Test.counter}}
+          </div>    
+     </div>
+</template>
+ 
+<script setup lang='ts'>
+import {useTestStore} from './store'
+const Test = useTestStore()
+const Add = () => {
+     Test.randomizeCounter()
+}
+ 
+</script>
+ 
+<style>
+ 
+</style>
+```
+2. 异步，可以结合async await修饰
