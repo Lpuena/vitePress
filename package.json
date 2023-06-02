@@ -11,13 +11,13 @@
   "devDependencies": {
     "flexsearch": "^0.7.31",
     "markdown-it": "^13.0.1",
-    "vite": "^4.1.4",
-    "vitepress": "^1.0.0-alpha.48",
-    "vitepress-plugin-search": "^1.0.4-alpha.19",
-    "vue": "^3.2.47"
+    "vite": "^4.3.9",
+    "vitepress": "^1.0.0-beta.1",
+    "vitepress-plugin-search": "^1.0.4-alpha.20",
+    "vue": "^3.3.4"
   },
   "dependencies": {
-    "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
     "sass": "^1.62.1",
     "vitepress-plugin-image-viewer": "^1.1.2"
   }

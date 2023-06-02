@@ -1,23 +1,23 @@
 {
-  "hash": "3e91d53a",
-  "browserHash": "d8e2a149",
+  "hash": "0e3816c2",
+  "browserHash": "469c2854",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "c04fafe9",
+      "fileHash": "04098ead",
       "needsInterop": false
     },
     "vitepress-plugin-image-viewer": {
       "src": "../../../../node_modules/vitepress-plugin-image-viewer/lib/viewer.js",
       "file": "vitepress-plugin-image-viewer.js",
-      "fileHash": "24edcba4",
+      "fileHash": "85fb7a5c",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-QH2LEIYP": {
-      "file": "chunk-QH2LEIYP.js"
+    "chunk-ODOPCOSX": {
+      "file": "chunk-ODOPCOSX.js"
     }
   }
 }
