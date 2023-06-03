@@ -580,15 +580,14 @@ const getStorage = (key: string) => {
 const __Pinia_Key__: string = 'piniaDefalut'
 const piniaPlugin = (option: Option) => {
   return (context: PiniaPluginContext) => {
+    // 从 context 中解构出 store
     const {store} = context
-    // console.log('store', store)
     const data = getStorage(`${option.key ?? __Pinia_Key__}--${store.$id}`)
-    console.log(data, '==>')
     store.$subscribe(() => {
       // 监听到变化，就存储
+      // 没传 key 就用默认值 __Pinia_Key__
       setStorage(`${option.key ?? __Pinia_Key__}--${store.$id}`, toRaw(store.$state))
     })
-    // getStorage()
     return {
       ...data
     }
@@ -596,7 +595,9 @@ const piniaPlugin = (option: Option) => {
 }
 
 const pinia = createPinia()
-pinia.use(piniaPlugin({}))
+pinia.use(piniaPlugin({
+  key: 'pinia'
+}))
 
 
 // @ts-ignore
