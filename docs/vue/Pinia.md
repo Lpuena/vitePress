@@ -466,7 +466,9 @@ export const useTestStore = defineStore(Names.TEST, {
   }
 })
 ```
+
 2. 普通函数形式可以使用this
+
 ```ts
 export const useTestStore = defineStore(Names.TEST, {
   getters: {
@@ -476,7 +478,9 @@ export const useTestStore = defineStore(Names.TEST, {
   },
 })
 ```
+
 3. getters 互相调用
+
 ```ts
 export const useTestStore = defineStore(Names.TEST, {
   getters: {
@@ -491,50 +495,121 @@ export const useTestStore = defineStore(Names.TEST, {
 ```
 
 ## API
+
 ### $reset
+
 重置store到他的初始状态
+
 ```ts
 import {useTestStore} from "@/stores";
 
 const Test = useTestStore()
 Test.$reset()
 ```
+
 ### 订阅state的改变
-类似于 Vuex 的 subscribe  只要有 state 的变化就会走这个函数
+
+类似于 Vuex 的 subscribe 只要有 state 的变化就会走这个函数
+
 ```ts
-Test.$subscribe((args,state)=>{
-   console.log(args,state);
+Test.$subscribe((args, state) => {
+  console.log(args, state);
 })
 ```
+
 返回值
 ![img](/pinia.png)
 
 第二个参数
 
 如果你的组件卸载之后还想继续调用请设置第二个参数
+
 ```ts
-Test.$subscribe((args,state)=>{
-   console.log(args,state);
-   
-},{
-  detached:true
+Test.$subscribe((args, state) => {
+  console.log(args, state);
+
+}, {
+  detached: true
 })
 ```
 
 ### 订阅Actions的调用
+
 只要有actions被调用就会走这个函数
+
 ```ts
-Test.$onAction((args)=>{
-   console.log(args);
-   
+Test.$onAction((args) => {
+  console.log(args);
+
 })
 ```
+
 第二个参数
 
 组件被卸载后依旧保留，使用第二个参数
+
 ```ts
-Test.$onAction((args)=>{
-   console.log(args);
-   
-},true)
+Test.$onAction((args) => {
+  console.log(args);
+
+}, true)
 ```
+
+## 插件(持久存储)
+
+pinia 和 vuex 都有一个通病 页面刷新状态会丢失
+
+我们可以写一个pinia 插件缓存他的值
+main.ts
+
+```ts
+import {createApp, toRaw} from 'vue'
+import {createPinia, PiniaPluginContext} from 'pinia'
+
+interface Option {
+  key?: string
+}
+
+const setStorage = (key: string, value: any) => {
+  localStorage.setItem(key, JSON.stringify(value))
+}
+const getStorage = (key: string) => {
+  return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) as string) : {}
+}
+
+const __Pinia_Key__: string = 'piniaDefalut'
+const piniaPlugin = (option: Option) => {
+  return (context: PiniaPluginContext) => {
+    const {store} = context
+    // console.log('store', store)
+    const data = getStorage(`${option.key ?? __Pinia_Key__}--${store.$id}`)
+    console.log(data, '==>')
+    store.$subscribe(() => {
+      // 监听到变化，就存储
+      setStorage(`${option.key ?? __Pinia_Key__}--${store.$id}`, toRaw(store.$state))
+    })
+    // getStorage()
+    return {
+      ...data
+    }
+  }
+}
+
+const pinia = createPinia()
+pinia.use(piniaPlugin({}))
+
+
+// @ts-ignore
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(pinia)
+app.use(router)
+
+app.mount('#app')
+
+```
+
+或者直接使用 [pinia-plugin-persistedstate](https://prazdevs.github.io/pinia-plugin-persistedstate/)
