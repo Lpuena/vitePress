@@ -151,6 +151,7 @@ export default {
         {text: 'Vue+webpack', link: '/vue/webpack'},
         {text: 'Proxy跨域', link: '/vue/Proxy跨域'},
         {text: 'Pinia', link: '/vue/Pinia'},
+        {text: 'Router', link: '/vue/Router'},
         {text: '案例', link: '/vue/案例'},
       ]
     },
