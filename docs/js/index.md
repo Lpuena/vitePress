@@ -111,6 +111,17 @@ planPaymentAmountFix(value)
 }
 ```
 
+## 给元素绑定动态class样式
+> 利用三元表达式 和v-bind 来动态绑定
+
+```html
+
+<a-checkbox :checked="item.done" :class="item.done ? 'textDecoration' : ''"
+            @click="changeDoneById(item.id)">
+    {{ item.info }}
+</a-checkbox>
+```
+
 ## 格式化时间戳 parseTime
 
 ```js
