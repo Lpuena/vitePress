@@ -422,6 +422,7 @@ const routes: Array<RouteRecordRaw> = [
 
 ]
 ```
+
 :::tip
 children 中的 path 最前面不能加'/'，会匹配不到。
 :::
@@ -438,6 +439,522 @@ children 配置只是另一个路由数组，就像 routes 本身一样。因此
     </div>
 </div>
 ```
+
 :::tip
 router-link 中的 to 必须在最前面添加 '/'，不然匹配不到正确的路由，而且要加上父级路由的前缀
 :::
+
+## 命名视图
+
+命名视图可以在同一级（同一个组件）中展示更多的路由视图，而不是嵌套显示。 命名视图可以让一个组件中具有多个路由渲染出口，这对于一些特定的布局组件非常有用。
+命名视图的概念非常类似于“具名插槽”，并且视图的默认名称也是 default。
+
+一个视图使用一个组件渲染，因此对于同个路由，多个视图就需要多个组件。确保正确使用 components 配置 (带上 s)
+
+```ts
+import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
+
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: "/",
+    components: {
+      default: () => import('../components/layout/menu.vue'),
+      header: () => import('../components/layout/header.vue'),
+      content: () => import('../components/layout/content.vue'),
+    }
+  },
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+export default router
+```
+
+对应Router-view 通过name 对应组件
+
+```html
+
+<div>
+    <router-view></router-view>
+    <router-view name="header"></router-view>
+    <router-view name="content"></router-view>
+</div>
+```
+
+## 重定向 redirect
+
+1. 字符串形式配置，访问 / 重定向到 /user （地址栏显示/,内容为/user路由的内容）
+
+```ts
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    component: () => import('../components/root.vue'),
+    redirect: '/user1',
+    children: [
+      {
+        path: '/user1',
+        components: {
+          default: () => import('../components/A.vue')
+        }
+      },
+    ]
+  }
+] 
+```
+
+2. 对象形式配置
+
+```ts
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    component: () => import('../components/root.vue'),
+    redirect: {path: '/user1'},
+    children: [
+      {
+        path: '/user1',
+        components: {
+          default: () => import('../components/A.vue')
+        }
+      },
+    ]
+  }
+]
+```
+
+3. 函数模式（可以传参）
+
+```ts
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    component: () => import('../components/root.vue'),
+    redirect: (to) => {
+      return {
+        path: '/user1',
+        query: to.query
+      }
+    },
+    children: [
+      {
+        path: '/user1',
+        components: {
+          default: () => import('../components/A.vue')
+        }
+      },
+    ]
+  }
+]
+```
+
+## 别名 alias
+
+将 / 别名为 /root，意味着当用户访问 /root时，URL 仍然是 /user，但会被匹配为用户正在访问 /
+
+```ts
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    component: () => import('../components/root.vue'),
+    alias: ["/root", "/root2", "/root3"],
+    children: [
+      {
+        path: 'user1',
+        components: {
+          default: () => import('../components/A.vue')
+        }
+      },
+    ]
+  }
+]
+```
+
+## 导航守卫
+
+### 全局前置守卫 - router.beforeEach
+
+```ts
+router.beforeEach((to, form, next) => {
+  console.log(to, form);
+  next()
+})
+```
+
+每个守卫方法接收三个参数：
+
+- to: Route， 即将要进入的目标 路由对象；
+- from: Route，当前导航正要离开的路由；
+- next(): 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 confirmed (确认的)。
+- next(false): 中断当前的导航。如果浏览器的 URL 改变了 (可能是用户手动或者浏览器后退按钮)，那么 URL 地址会重置到 from
+  路由对应的地址。
+- next('/') 或者 next({ path: '/' }): 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。
+
+案例 权限判断
+
+```ts
+const whileList = ['/']
+
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('token')
+  //白名单 有值 或者登陆过存储了token信息可以跳转 否则就去登录页面
+  if (whileList.includes(to.path) || token) {
+    next()
+  } else {
+    next({
+      path: '/'
+    })
+  }
+})
+```
+
+### 全局后置守卫 - afterEach
+
+使用场景一般可以用来做loadingBar
+
+你也可以注册全局后置钩子，然而和守卫不同的是，这些钩子不会接受 next 函数也不会改变导航本身：
+
+```ts
+router.afterEach((to, from) => {
+  Vnode.component?.exposed?.endLoading()
+})
+```
+
+loadingBar 组件
+
+```vue
+
+<template>
+  <div class="wraps">
+    <div ref="bar" class="bar"></div>
+  </div>
+</template>
+
+<script setup lang='ts'>
+import {ref, onMounted} from 'vue'
+
+let speed = ref<number>(1)
+let bar = ref<HTMLElement>()
+let timer = ref<number>(0)
+const startLoading = () => {
+  let dom = bar.value as HTMLElement;
+  speed.value = 1
+  timer.value = window.requestAnimationFrame(function fn() {
+    if (speed.value < 90) {
+      speed.value += 1;
+      dom.style.width = speed.value + '%'
+      timer.value = window.requestAnimationFrame(fn)
+    } else {
+      speed.value = 1;
+      window.cancelAnimationFrame(timer.value)
+    }
+  })
+
+}
+
+const endLoading = () => {
+  let dom = bar.value as HTMLElement;
+  setTimeout(() => {
+    window.requestAnimationFrame(() => {
+      speed.value = 100;
+      dom.style.width = speed.value + '%'
+    })
+  }, 500)
+
+}
+
+
+defineExpose({
+  startLoading,
+  endLoading
+})
+</script>
+
+<style scoped lang="less">
+.wraps {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 2px;
+
+  .bar {
+    height: inherit;
+    width: 0;
+    background: blue;
+  }
+}
+</style>
+```
+
+mian.ts
+
+```ts
+import loadingBar from './components/loadingBar.vue'
+
+const Vnode = createVNode(loadingBar)
+render(Vnode, document.body)
+console.log(Vnode);
+
+router.beforeEach((to, from, next) => {
+  Vnode.component?.exposed?.startLoading()
+})
+
+router.afterEach((to, from) => {
+  Vnode.component?.exposed?.endLoading()
+})
+```
+
+## 路由元信息
+
+通过路由记录的 meta 属性可以定义路由的元信息。使用路由元信息可以在路由中附加自定义的数据，例如：
+
+- 权限校验标识。
+- 路由组件的过渡名称。
+- 路由组件持久化缓存 (keep-alive) 的相关配置。
+- 标题名称
+
+我们可以在**导航守卫**或者是**路由对象**中访问路由的元信息数据。
+
+```ts
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      component: () => import('@/views/Login.vue'),
+      meta: {
+        title: "登录"
+      }
+    },
+    {
+      path: '/index',
+      component: () => import('@/views/Index.vue'),
+      meta: {
+        title: "首页",
+      }
+    }
+  ]
+})
+```
+
+### 使用TS扩展
+
+如果不使用扩展 将会是unknow 类型
+
+```ts
+declare module 'vue-router' {
+  interface RouteMeta {
+    title?: string
+  }
+}
+```
+
+## 路由过渡动效
+
+过渡动效:想要在你的路径组件上使用转场，并对导航进行动画处理，你需要使用 v-slot API：
+
+```html
+
+<router-view #default="{route,Component}">
+    <transition :enter-active-class="`animate__animated ${route.meta.transition}`">
+        <component :is="Component"></component>
+    </transition>
+</router-view>
+```
+
+让每个路由的组件有不同的过渡，你可以将元信息和动态的 name 结合在一起，放在 `<transition>` 上：
+
+```ts
+declare module 'vue-router' {
+  interface RouteMeta {
+    title: string,
+    transition: string,
+  }
+}
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      component: () => import('@/views/Login.vue'),
+      meta: {
+        title: "登录页面",
+        transition: "animate__fadeInUp",
+      }
+    },
+    {
+      path: '/index',
+      component: () => import('@/views/Index.vue'),
+      meta: {
+        title: "首页！！！",
+        transition: "animate__bounceIn",
+      }
+    }
+  ]
+})
+```
+
+## 滚动行为
+
+使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。vue-router
+可以自定义路由切换时页面如何滚动。
+
+当创建一个 Router 实例，你可以提供一个 scrollBehavior 方法
+
+```ts
+const router = createRouter({
+  history: createWebHistory(),
+  scrollBehavior: (to, from, savePosition) => {
+    console.log(to, '==============>', savePosition);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          top: 10000
+        })
+      }, 2000);
+    })
+  },
+```
+
+> [Promise详解](https://zh.javascript.info/promise-basics)
+
+scrollBehavior 方法接收 to 和 from 路由对象。第三个参数 savedPosition 当且仅当 popstate 导航 (通过浏览器的 前进/后退
+按钮触发) 时才可用。
+
+scrollBehavior 返回滚动位置的对象信息，长这样：`{ left: number, top: number }`
+
+```ts
+const router = createRouter({
+  history: createWebHistory(),
+  scrollBehavior: (to, from, savePosition) => {
+    return {
+      top: 200
+    }
+  },
+```
+
+## 动态路由
+
+我们一般使用动态路由都是后台会返回一个路由表前端通过调接口拿到后处理(后端处理路由)
+
+主要使用的方法就是router.addRoute
+
+### 添加路由 - router.addRoute
+
+动态路由主要通过两个函数实现。`router.addRoute()` 和 `router.removeRoute()`。
+它们只注册一个新的路由，也就是说，如果新增加的路由与当前位置相匹配，就需要你用 `router.push()` 或 `router.replace()`
+来手动导航，才能显示该新路由
+
+```ts
+router.addRoute({path: '/about', component: About})
+```
+
+### 删除路由
+
+有几个不同的方法来删除现有的路由：
+
+- 通过添加一个名称冲突的路由。如果添加与现有途径名称相同的途径，会先删除路由，再添加路由：
+
+```ts
+router.addRoute({path: '/about', name: 'about', component: About})
+// 这将会删除之前已经添加的路由，因为他们具有相同的名字且名字必须是唯一的
+router.addRoute({path: '/other', name: 'about', component: Other})
+```
+
+- 通过调用 `router.addRoute()` 返回的回调：
+
+```ts
+const removeRoute = router.addRoute(routeRecord)
+removeRoute() // 删除路由如果存在的话
+```
+
+当路由没有名称时，这很有用。
+
+- 通过使用 `router.removeRoute()` 按名称删除路由：
+
+```ts
+router.addRoute({path: '/about', name: 'about', component: About})
+// 删除路由
+router.removeRoute('about')
+```
+
+需要注意的是，如果你想使用这个功能，但又想避免名字的冲突，可以在路由中使用 Symbol 作为名字。
+当路由被删除时，所有的别名和子路由也会被同时删除
+
+### 查看现有路由
+
+Vue Router 提供了两个功能来查看现有的路由：
+
+- router.hasRoute()：检查路由是否存在。
+- router.getRoutes()：获取一个包含所有路由记录的数组。
+
+案例
+
+前端代码
+
+```ts
+const initRouter = async () => {
+  const result = await axios.get('http://localhost:9999/login', {params: formInline});
+  result.data.route.forEach((v: any) => {
+    router.addRoute({
+      path: v.path,
+      name: v.name,
+      //                         这儿不能使用@
+      component: () => import(`../views/${v.component}`)
+    })
+    router.push('/index')
+  })
+  console.log(router.getRoutes());
+
+}
+```
+
+:::tip
+vite 在使用动态路由的时候无法使用别名 @ 必须使用相对路径
+:::
+后端代码 nodejs express
+
+```ts
+import express, {Express, Request, Response} from 'express'
+
+const app: Express = express()
+
+app.get('/login', (req: Request, res: Response) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  if (req.query.user == 'admin' && req.query.password == '123456') {
+    res.json({
+      route: [
+        {
+          path: "/demo1",
+          name: "Demo1",
+          component: 'demo1.vue'
+        },
+        {
+          path: "/demo2",
+          name: "Demo2",
+          component: 'demo2.vue'
+        },
+        {
+          path: "/demo3",
+          name: "Demo3",
+          component: 'demo3.vue'
+        }
+      ]
+    })
+  } else {
+    res.json({
+      code: 400,
+      mesage: "账号密码错误"
+    })
+  }
+})
+
+app.listen(9999, () => {
+  console.log('http://localhost:9999');
+
+})
+```
