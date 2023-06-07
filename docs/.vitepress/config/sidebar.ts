@@ -111,6 +111,7 @@ export default {
         {text: 'JS数组', link: '/js/数组'},
         {text: 'JS对象', link: '/js/对象'},
         {text: '网络请求', link: '/js/网络请求'},
+        {text: 'pm2', link: '/js/pm2'},
       ]
     }
   ],
