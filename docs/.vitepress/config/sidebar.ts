@@ -18,6 +18,12 @@ export default {
         {text: 'ESLint中的规则', link: '/git/eslint/'},
         // {text: '二、面向对象', link: '/webpack/'},
       ]
+    },{
+    text:'Linux',
+      items: [
+        {text:'基本命令',link:'/git/linux/'},
+        {text:'node配置',link:'/git/linux/node'}
+      ]
     }
   ],
   '/webpack/': [
