@@ -22,7 +22,8 @@ export default {
     text:'Linux',
       items: [
         {text:'基本命令',link:'/git/linux/'},
-        {text:'node配置',link:'/git/linux/node'}
+        {text:'node配置',link:'/git/linux/node'},
+        {text:'Nginx',link:'/git/linux/nginx'},
       ]
     }
   ],

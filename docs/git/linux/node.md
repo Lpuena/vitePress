@@ -3,7 +3,7 @@
 在nodejs 官网找到
 ![img](/linuxNode.png)
 
-使用 wget 命令
+使用 wget 命令下载
 ```shell
 wget https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz
 ```
@@ -27,7 +27,7 @@ vi编辑器的使用：(命令行模式下)
 
 然后执行 source profile
 
-:::warning 踩过的坑
+:::warning 全局变量的坑
 只有手动执行了 `source etc/profile` 才可以成功的使用node命令
 
 在当前用户的~目录下，编辑 .bashrc 文件，在最后使用 source profile 命令
