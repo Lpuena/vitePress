@@ -367,3 +367,132 @@ try_files $uri $uri/ /index.html;
 - $request_uri 浏览器发起的不作任何修改的请求的url中的path 如在www.baidu.com/p1/file?d=111, 其值为/p1/file?d=111
 - $uri 指当前的请求URI，不包括任何参数，反映任何内部重定向或index模块所做的修改
 - $request_method 请求方法
+
+
+
+## Nginx-Go-Access-日志分析器
+GoAccess 是一款开源、实时，运行在命令行终端下的 web 日志分析工具。该工具提供快速、多样的 HTTP 状态统计，
+可以令管理员不再纠结于统计各类数据，和繁杂的指令以及一大堆管道/正则表达式说 bye bye
+```shell
+wget http://tar.goaccess.io/goaccess-1.2.tar.gz
+tar -xzvf goaccess-1.2.tar.gz
+cd goaccess-1.2/
+./configure --enable-utf8 --enable-geoip=legacy
+make
+make install
+```
+
+操作手册
+[GoAccess - 中文站 - 可视化 Web 日志分析工具](https://www.goaccess.cc/?mod=man)
+
+开启实时HTML报告分析（webSocket）
+```shell
+goaccess access.log -a -o ../html/report.html --real-time-html --log-format=COMBINED
+```
+[选项](https://xiaoman.blog.csdn.net/article/details/124546293)
+
+## Nginx-负载均衡upstream
+基本语法
+upstream的基本语法如下，一个upstream需要设置一个名称，这个名称可以在server里面当作proxy主机使用。
+```nginx configuration
+http {
+    upstream my_backend {
+        server backend1.example.com;
+        server backend2.example.com;
+        server backend3.example.com;
+    }
+
+    server {
+        listen 80;
+        server_name myserver.example.com;
+
+        location / {
+            proxy_pass http://my_backend;
+        }
+    }
+}
+
+```
+### 默认状态是按照轮询的方式去做负载的
+使用express 启动三个服务 分别是9001 9002 9003
+```js
+const express = require('express')
+var num = 1
+const app = express()
+ 
+app.get('/list',(req,res)=>{
+    res.json({
+        code:200,
+        message:"Nginx 负载均衡9001"
+    })
+    console.log("Nginx 负载均衡9001",num)
+   num++
+})
+//------------------------------9001
+app.listen(9001,()=>{
+    console.log('9001 success')
+})
+ 
+//-----------------------------------
+const express = require('express')
+var num = 1
+const app = express()
+ 
+app.get('/list',(req,res)=>{
+    res.json({
+        code:200,
+        message:"Nginx 负载均衡9002"
+    })
+    console.log("Nginx 负载均衡9002",num)
+    num++
+})
+//------------------------------9002
+app.listen(9002,()=>{
+    console.log('9002 success')
+})
+ 
+//--------------------------------
+ 
+const express = require('express')
+var num = 1
+const app = express()
+ 
+app.get('/list',(req,res)=>{
+    
+    res.json({
+        code:200,
+        message:"Nginx 负载均衡9003"
+    })
+    console.log("Nginx 负载均衡9003",num)
+    num++
+})
+//------------------------------9003
+app.listen(9003,()=>{
+    console.log('9003 success')
+})
+```
+### 权重weight
+```nginx configuration
+upstream  node {
+    server 127.0.0.1:9001 weight=3;
+    server 127.0.0.1:9002 weight=2;
+    server 127.0.0.1:9003 weight=1;
+}
+```
+> 权重越大服务器承载的并发就越高
+
+### fail_timeout backup
+fail_timeout是故障等待超时时间
+
+backup是备用服务器参数，可以为一个upstream设置一个backup的server，在生产server全部都出问题之后，可以自动切换到备用server上，为回复服务争取时间
+```nginx configuration
+upstream  node {
+
+    server 127.0.0.1:9001 fail_timeout=60;
+
+    server 127.0.0.1:9002 fail_timeout=20;
+
+    server 127.0.0.1:9003 backup;
+
+}
+```

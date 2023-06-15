@@ -25,6 +25,13 @@ export default {
         {text:'node配置',link:'/git/linux/node'},
         {text:'Nginx',link:'/git/linux/nginx'},
       ]
+    },
+    {
+      text:'网络安全',
+      items: [
+        {text: 'canvas指纹技术',link:'/git/safe/'},
+        {text: 'Puppeteer',link:'/git/safe/Puppeteer'}
+      ]
     }
   ],
   '/webpack/': [
@@ -102,6 +109,7 @@ export default {
           text: '案例', items: [
             {text: 'LocalStorage增加有效期', link: '/ts/LocalStorage增加有效期'},
             {text: '发布订阅模式', link: '/ts/发布订阅模式'},
+            {text: '前端埋点SDK', link: '/ts/前端埋点SDK'},
           ]
         },
       ]
@@ -163,6 +171,17 @@ export default {
         {text: '案例', link: '/vue/案例'},
       ]
     },
+  ],
+  '/nestjs/':[
+    {
+      text: 'nestjs',
+      items: [
+        // This shows `/guide/index.md` page.(必须有index.md)
+        {text: 'IOC控制反转', link: '/nestjs/'},
+        {text: 'NestJS Cli', link: '/nestjs/nestjsCli'},
+        // {text: 'JS数组', link: '/js/数组'},
+      ]
+    }
   ]
 
 }

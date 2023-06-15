@@ -29,6 +29,7 @@
 ```
 
 修改rollup.config.js
+> 新版的写法(不用安装额外的包)
 
 ```js
 import path from "path";

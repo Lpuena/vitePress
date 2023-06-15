@@ -412,7 +412,19 @@ import './Tailwind/index.css'
 
 </style>
 ```
-
+:::tip
+如果使用了eslint的话，需要多两步操作
+:::
+```shell
+npm i -D eslint-plugin-tailwindcss
+```
+在 `.eslintrc` 文件中添加
+```json
+module.exports = {
+  root: true,
+  extends: ["plugin:tailwindcss/recommended"],
+}
+```
 ## 什么是css原子化？
 
 CSS原子化的优缺点

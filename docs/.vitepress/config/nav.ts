@@ -18,6 +18,7 @@ export default function getNavs() {
       ]
     },
     {text: 'Webpack', link: '/webpack/', activeMatch: '/webpack/'},
+    {text: 'NestJS', link: '/nestjs/', activeMatch: '/nestjs/'},
     // {text: 'Github', link: 'https://github.com/Lpuena'},
     {text: 'About', link: '/about'},
   ]
