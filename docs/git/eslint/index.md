@@ -37,3 +37,8 @@ package.json
   }
 }
 ```
+
+## webstorm调试ts文件
+选择 nodejs，节点形参中写 `-r ts-node/register`
+
+或者在package.json中添加一条`ts-node server.ts`的命令然后调试
