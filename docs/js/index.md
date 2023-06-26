@@ -81,10 +81,10 @@ console.log('3', obj3)
 ```vue
 
 <el-input
-		v-model="addPlaneForm.planPaymentAmount"
-		oninput="value=value.match(/^\d+(?:\.\d{0,2})?/)"
-		@blur="planPaymentAmountFix($event.target.value)"
-		placeholder="请输入"
+    v-model="addPlaneForm.planPaymentAmount"
+    oninput="value=value.match(/^\d+(?:\.\d{0,2})?/)"
+    @blur="planPaymentAmountFix($event.target.value)"
+    placeholder="请输入"
 />
 ```
 
@@ -112,6 +112,7 @@ planPaymentAmountFix(value)
 ```
 
 ## 给元素绑定动态class样式
+
 > 利用三元表达式 和v-bind 来动态绑定
 
 ```html
@@ -208,188 +209,188 @@ export function parseTime(time, pattern) {
 ```vue
 
 <template>
-	<el-table ref="multipleTable3"
-	          :data="supplierTableData"
-	          
-	          tooltip-effect="dark"
-	          height="600"
-	          style="width: 100%"
-	          @selection-change="supplierSelectionChange"
-	          @select="supplierSelectionSelect"
-	          @select-all="supplierSelectionSelectAll"
-	>
-	</el-table>
+  <el-table ref="multipleTable3"
+            :data="supplierTableData"
+
+            tooltip-effect="dark"
+            height="600"
+            style="width: 100%"
+            @selection-change="supplierSelectionChange"
+            @select="supplierSelectionSelect"
+            @select-all="supplierSelectionSelectAll"
+  >
+  </el-table>
 </template>
 <script>
 export default {
-	props: ['value', 'productIdNameList', 'IdNameList'],
-	data() {
-		return {
-			//上锁的状态
-			rowSelectFlag: false,
-			isSupplierPop: false, // 是否展示弹窗: 选择供应商
-			newIdNameList: [], // 父组件传入的id集合的copy
-			// 选择供应商弹窗 表格数据（接口获取到的分页数据在页面显示）
-			supplierTableData: [],
-		}
-	},
-	watch: {
-		value(newval) {
-			this.isSupplierPop = newval
-			if (newval) {
-				// 展示弹窗
-				//打开弹窗总是展示第一页
-				this.queryParams.pageNo = 1
-				this.handleQuery() // 接口获取分页数据的方法
-				// (分页的时候都会调用这个方法，我把idChange方法也放在里面了，
-				// 在请求数据的时候就进行数据回显)
-				
-				// 如果父组件传入进来的IdNameList集合里面有数据，
-				// 就证明需要数据回显，将数据深拷贝给子组件内的数组
-				if (this.IdNameList.length > 0) {
-					console.log(2)
-					this.newIdNameList = structuredClone(this.IdNameList)
-					//   如果父组件传入了一个productIdNameList的数组，
-					//   就代表着是修改页面的数据
-				} else if (this.productIdNameList) {
-					console.log(1)
-					this.newIdNameList = structuredClone(this.productIdNameList)
-					//   首次打开
-				} else {
-					console.log(3)
-					this.newIdNameList = []
-				}
-			
-			}
-		}
-	},
-	methods: {
-		// 传id,name数组,通过id来进行多选的数据回显
-		idChange() {
-			console.log('777', this.newIdNameList)
-			// 如果不是首次打开，有数据就进行多选框的状态回显
-			if (this.newIdNameList.length > 0) {
-				// 上锁，避免 toggleRowSelection 被动触发 select/select-change
-				setTimeout(() => {
-					this.rowSelectFlag = true
-					this.newIdNameList.forEach(item => {
-						// console.log(this.supplierTableData)
-						this.supplierTableData.forEach(item1 => {
-							// 如果匹配到相同id的，就证明该项需要显示勾选状态
-							if (item.supplierId == item1.id) {
-								// console.log('执行了数据回显的状态显示')
-								// 将其状态改变
-								this.$refs.multipleTable3.toggleRowSelection(item1, true)
-							}
-						})
-					})
-					this.rowSelectFlag = false
-				}, 0)
-			}
-		
-		},
-		
-		// 取消弹窗按钮
-		cancel() {
-			this.isSupplierPop = false
-			this.$emit('input', false)
-		},
-		// 确认按钮 添加供应商
-		async supplierConfirm() {
-			// 选中的多选数据传给父组件
-			// this.$emit('confirm', this.supplierSelecData)
-			this.$emit('confirm', this.newIdNameList)
-			// 关闭弹窗
-			this.$emit('input', false)
-		
-		},
-		
-		// 供应商选择的select方法
-		// select 方法接受两个参数selection和row
-		// selection表示被选中的数组，所有被选中的内容都会被添加到这个数组中，
-		// 只有第一次全新进入选择的时候，这个数组才好用
-		
-		// row，表示选中当前项的详细数据
-		supplierSelectionSelect(selection, row) {
-			console.log('selection', selection)
-			console.log('row', row)
-			// 如果选中的id在父组件传过来的id数组中有的话，就将该项删除，没有就添加
-			this.newIdNameList.forEach(item => {
-				if (row.id == item.supplierId) {
-					this.idStatus = true
-					console.log('id相同')
-					this.newIdNameList = this.newIdNameList.filter(item1 => {
-						// id相同，去除
-						return item1.supplierId != row.id
-					})
-				}
-				console.log('遍历', item.supplierId)
-			})
-			// 如果没找到id相同的就进行添加
-			if (!this.idStatus) {
-				console.log('添加')
-				let obj = {
-					supplierId: row.id,
-					supplierName: row.supplierName
-				}
-				this.newIdNameList.push(obj)
-			}
-			
-			console.log('newIdNameList', this.newIdNameList)
-			this.idStatus = false
-		
-		},
-		// 供应商选择的select-all 方法
-		supplierSelectionSelectAll(selection) {
-			// 当全选的时候，selection能拿到全选了哪些数据
-			
-			this.allList = structuredClone(selection)
-			console.log('all', selection)
-			console.log(this.newIdNameList)
-			// 数组长度大于0就是全选了，不然就是取消全选了
-			if (selection.length > 0) {
-				selection.forEach(item => {
-					this.newIdNameList.forEach(item1 => {
-						// 如果选中的数据中，包含原来选中的数据，那么就将其删除然后push进去
-						if (item.id == item1.supplierId) {
-							console.log('有相同包含的')
-							this.allList = this.allList.filter(x => x.id != item1.supplierId)
-							console.log('allList', this.allList)
-						}
-					
-					})
-				})
-				// 将全选筛选出来的数据放入newIdNameList
-				this.SelectAllAdd()
-			} else {
-				// 但是当全部取消全选的时候，selection的值为空数组
-				// 获取不到取消全选了哪些内容
-				// 每次点击下一页的时候，数据接口都会返回该页的全部信息，用 cancelSelectAll 接收
-				console.log('取消了的全选数据', this.cancelSelectAll)
-				this.cancelSelectAll.forEach(item => {
-					this.newIdNameList = this.newIdNameList.filter(item1 => {
-						return item1.supplierId != item.id
-					})
-				})
-				console.log('取消全选newIdNameList', this.newIdNameList)
-			}
-		
-		},
-		// 供应商选择的select-all 中，将全选筛选出来的数据放入newIdNameList
-		SelectAllAdd() {
-			let obj = {}
-			// 将筛选后的每一项封装一下，只留下想要使用的信息
-			this.allList.forEach(item => {
-				obj = {
-					supplierId: item.id,
-					supplierName: item.supplierName
-				}
-				this.newIdNameList.push(obj)
-			})
-			
-			console.log('最后的newIdNameList', this.newIdNameList)
-		},
-	}
+  props: ['value', 'productIdNameList', 'IdNameList'],
+  data() {
+    return {
+      //上锁的状态
+      rowSelectFlag: false,
+      isSupplierPop: false, // 是否展示弹窗: 选择供应商
+      newIdNameList: [], // 父组件传入的id集合的copy
+      // 选择供应商弹窗 表格数据（接口获取到的分页数据在页面显示）
+      supplierTableData: [],
+    }
+  },
+  watch: {
+    value(newval) {
+      this.isSupplierPop = newval
+      if (newval) {
+        // 展示弹窗
+        //打开弹窗总是展示第一页
+        this.queryParams.pageNo = 1
+        this.handleQuery() // 接口获取分页数据的方法
+        // (分页的时候都会调用这个方法，我把idChange方法也放在里面了，
+        // 在请求数据的时候就进行数据回显)
+
+        // 如果父组件传入进来的IdNameList集合里面有数据，
+        // 就证明需要数据回显，将数据深拷贝给子组件内的数组
+        if (this.IdNameList.length > 0) {
+          console.log(2)
+          this.newIdNameList = structuredClone(this.IdNameList)
+          //   如果父组件传入了一个productIdNameList的数组，
+          //   就代表着是修改页面的数据
+        } else if (this.productIdNameList) {
+          console.log(1)
+          this.newIdNameList = structuredClone(this.productIdNameList)
+          //   首次打开
+        } else {
+          console.log(3)
+          this.newIdNameList = []
+        }
+
+      }
+    }
+  },
+  methods: {
+    // 传id,name数组,通过id来进行多选的数据回显
+    idChange() {
+      console.log('777', this.newIdNameList)
+      // 如果不是首次打开，有数据就进行多选框的状态回显
+      if (this.newIdNameList.length > 0) {
+        // 上锁，避免 toggleRowSelection 被动触发 select/select-change
+        setTimeout(() => {
+          this.rowSelectFlag = true
+          this.newIdNameList.forEach(item => {
+            // console.log(this.supplierTableData)
+            this.supplierTableData.forEach(item1 => {
+              // 如果匹配到相同id的，就证明该项需要显示勾选状态
+              if (item.supplierId == item1.id) {
+                // console.log('执行了数据回显的状态显示')
+                // 将其状态改变
+                this.$refs.multipleTable3.toggleRowSelection(item1, true)
+              }
+            })
+          })
+          this.rowSelectFlag = false
+        }, 0)
+      }
+
+    },
+
+    // 取消弹窗按钮
+    cancel() {
+      this.isSupplierPop = false
+      this.$emit('input', false)
+    },
+    // 确认按钮 添加供应商
+    async supplierConfirm() {
+      // 选中的多选数据传给父组件
+      // this.$emit('confirm', this.supplierSelecData)
+      this.$emit('confirm', this.newIdNameList)
+      // 关闭弹窗
+      this.$emit('input', false)
+
+    },
+
+    // 供应商选择的select方法
+    // select 方法接受两个参数selection和row
+    // selection表示被选中的数组，所有被选中的内容都会被添加到这个数组中，
+    // 只有第一次全新进入选择的时候，这个数组才好用
+
+    // row，表示选中当前项的详细数据
+    supplierSelectionSelect(selection, row) {
+      console.log('selection', selection)
+      console.log('row', row)
+      // 如果选中的id在父组件传过来的id数组中有的话，就将该项删除，没有就添加
+      this.newIdNameList.forEach(item => {
+        if (row.id == item.supplierId) {
+          this.idStatus = true
+          console.log('id相同')
+          this.newIdNameList = this.newIdNameList.filter(item1 => {
+            // id相同，去除
+            return item1.supplierId != row.id
+          })
+        }
+        console.log('遍历', item.supplierId)
+      })
+      // 如果没找到id相同的就进行添加
+      if (!this.idStatus) {
+        console.log('添加')
+        let obj = {
+          supplierId: row.id,
+          supplierName: row.supplierName
+        }
+        this.newIdNameList.push(obj)
+      }
+
+      console.log('newIdNameList', this.newIdNameList)
+      this.idStatus = false
+
+    },
+    // 供应商选择的select-all 方法
+    supplierSelectionSelectAll(selection) {
+      // 当全选的时候，selection能拿到全选了哪些数据
+
+      this.allList = structuredClone(selection)
+      console.log('all', selection)
+      console.log(this.newIdNameList)
+      // 数组长度大于0就是全选了，不然就是取消全选了
+      if (selection.length > 0) {
+        selection.forEach(item => {
+          this.newIdNameList.forEach(item1 => {
+            // 如果选中的数据中，包含原来选中的数据，那么就将其删除然后push进去
+            if (item.id == item1.supplierId) {
+              console.log('有相同包含的')
+              this.allList = this.allList.filter(x => x.id != item1.supplierId)
+              console.log('allList', this.allList)
+            }
+
+          })
+        })
+        // 将全选筛选出来的数据放入newIdNameList
+        this.SelectAllAdd()
+      } else {
+        // 但是当全部取消全选的时候，selection的值为空数组
+        // 获取不到取消全选了哪些内容
+        // 每次点击下一页的时候，数据接口都会返回该页的全部信息，用 cancelSelectAll 接收
+        console.log('取消了的全选数据', this.cancelSelectAll)
+        this.cancelSelectAll.forEach(item => {
+          this.newIdNameList = this.newIdNameList.filter(item1 => {
+            return item1.supplierId != item.id
+          })
+        })
+        console.log('取消全选newIdNameList', this.newIdNameList)
+      }
+
+    },
+    // 供应商选择的select-all 中，将全选筛选出来的数据放入newIdNameList
+    SelectAllAdd() {
+      let obj = {}
+      // 将筛选后的每一项封装一下，只留下想要使用的信息
+      this.allList.forEach(item => {
+        obj = {
+          supplierId: item.id,
+          supplierName: item.supplierName
+        }
+        this.newIdNameList.push(obj)
+      })
+
+      console.log('最后的newIdNameList', this.newIdNameList)
+    },
+  }
 }
 </script>
 ```
@@ -416,65 +417,83 @@ export default {
 ```vue
 
 <template>
-	<el-table :data="userList">
-		<el-table-column label="供应商" align="center" key="supplierName"
-		                 prop="supplierName">
-			<template v-slot="scope">
-				<el-popover
-						placement="top-start"
-						width="300"
-						trigger="manual"
-						:content="scope.row.supplierName"
-						v-model="scope.row.isTop"
-				>
-					
-					<div class="lineOmitted" slot="reference"
-					     @mouseleave="closeTips($event,scope.row)"
-					     @mouseenter="showTips($event,scope.row)"
-					>
-						{{ scope.row.supplierName }}
-					</div>
-				</el-popover>
-			</template>
-		</el-table-column>
-	</el-table>
+  <el-table :data="userList">
+    <el-table-column label="供应商" align="center" key="supplierName"
+                     prop="supplierName">
+      <template v-slot="scope">
+        <el-popover
+            placement="top-start"
+            width="300"
+            trigger="manual"
+            :content="scope.row.supplierName"
+            v-model="scope.row.isTop"
+        >
+
+          <div class="lineOmitted" slot="reference"
+               @mouseleave="closeTips($event,scope.row)"
+               @mouseenter="showTips($event,scope.row)"
+          >
+            {{ scope.row.supplierName }}
+          </div>
+        </el-popover>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 <script>
 export default {
-	methods: {
-		// 鼠标划过
-		showTips(obj, row) {
-			// 多行隐藏的时候用scrollHeight  单行隐藏的时候用scrollWidth
-			//scrollHeight就是文本未被隐藏的真实高度
-			// console.log('鼠标呼划入事件', obj.target.scrollHeight)
-			// 两行的高度是46,自适应宽度变，table表格的高不变
-			// 判断高度是否超出46 来进行判断它是否被隐藏了部分
-			if (obj.target.scrollHeight > 46) {
-				row.isTop = true
-				console.log(row.isTop)
-			} else {
-				row.isTop = false
-				console.log(row.isTop)
-			}
-		
-		},
-		// 鼠标离开
-		closeTips(obj, row) {
-			row.isTop = false
-		},
-	}
+  methods: {
+    // 鼠标划过
+    showTips(obj, row) {
+      // 多行隐藏的时候用scrollHeight  单行隐藏的时候用scrollWidth
+      //scrollHeight就是文本未被隐藏的真实高度
+      // console.log('鼠标呼划入事件', obj.target.scrollHeight)
+      // 两行的高度是46,自适应宽度变，table表格的高不变
+      // 判断高度是否超出46 来进行判断它是否被隐藏了部分
+      if (obj.target.scrollHeight > 46) {
+        row.isTop = true
+        console.log(row.isTop)
+      } else {
+        row.isTop = false
+        console.log(row.isTop)
+      }
+
+    },
+    // 鼠标离开
+    closeTips(obj, row) {
+      row.isTop = false
+    },
+  }
 }
 </script>
 <style lang="scss">
 .lineOmitted {
-	display: -webkit-box; //将对象作为弹性伸缩盒子模型显示。
-	overflow: hidden;
-	text-overflow: ellipsis;
-	
-	-webkit-box-orient: vertical; //从上到下垂直排列子元素（设置伸缩盒子的子元素排列方式）
-	-webkit-line-clamp: 2;
+  display: -webkit-box; //将对象作为弹性伸缩盒子模型显示。
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  -webkit-box-orient: vertical; //从上到下垂直排列子元素（设置伸缩盒子的子元素排列方式）
+  -webkit-line-clamp: 2;
 
 }
 </style>
 
+```
+
+## TS + Vue3 + Element 打包报错
+
+> 模块 "element-plus" 没有导出的成员 "ElMessage"。
+> 你是想改用 "import ElMessage from "element-plus"" 吗?
+
+环境：Vue3 + Vite + Ts + Element Plus
+
+问题出在ts的语法检查，`import { ElMessage } from 'element-plus';` 在框架里找不到ElMessage这个对象
+
+解决方法：
+> tsconfig.app.json 和 tsconfig.node.json 都添加 `moduleResolution`属性
+
+```json
+"compilerOptions": {
+"moduleResolution": "node"
+}
 ```
