@@ -915,6 +915,8 @@ const initRouter = async () => {
 
 :::tip
 vite 在使用动态路由的时候无法使用别名 @ 必须使用相对路径
+
+添加路由后，不能导航栏直接输入地址，会进行页面刷新，将 addRoute 添加的路由给刷新掉了
 :::
 后端代码 nodejs express
 
@@ -948,7 +950,7 @@ app.get('/login', (req: Request, res: Response) => {
   } else {
     res.json({
       code: 400,
-      mesage: "账号密码错误"
+      message: "账号密码错误"
     })
   }
 })
@@ -958,3 +960,8 @@ app.listen(9999, () => {
 
 })
 ```
+:::tip
+使用vite + TS 的时候，想要在 TS 中使用 import ，需要将 `tsconfig.json ` 中的 `esModuleInterop` 设置为 true。在引用的两个文件中修改，不起作用。
+
+使用 express + ts 需要下载 express 和 node 的声明文件
+:::
