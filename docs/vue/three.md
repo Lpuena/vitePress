@@ -353,10 +353,18 @@ console.log(instance)
 
 - 自定义hook的优势: 复用代码, 让setup中的逻辑更清楚易懂。
 
-## 10.toRef
+## 10.toRef/toRefs
 
 - 作用：创建一个 ref 对象，其value值指向另一个对象中的某个属性。
-- 语法：```const name = toRef(person,'name')```
+- 语法：
+```ts
+const person = reactive({
+  name: 'zs',
+});
+const nameRef = toRef(person,'name')
+person.name = 'ww'
+nameRef.value = 'ls'
+```
 - 应用:   要将响应式对象中的某个属性单独提供给外部使用时。
 
 
@@ -366,10 +374,9 @@ console.log(instance)
 `toRef` 只能修改修改响应式对象的值，非响应式视图毫无变化
 
 `toRefs` 可以把他当成一个响应式对象的解构，解构出来的属性，依旧是响应式的ref。
-
+:::
 ```ts
 const man = reactive({name: 'Gxx', age: 20})
 let {name, age} = toRefs(man)
+age.value++
 ```
-
-:::

@@ -7,6 +7,7 @@ export default {
       items: [
         // This shows `/guide/index.md` page.(必须有index.md)
         {text: 'Git的配置', link: '/git/Git'},
+        {text: 'degit', link: '/git/degit'},
       ]
     },
     {
@@ -93,7 +94,7 @@ export default {
             {text: 'compilerOptions', link: '/ts/compilerOptions'},
           ]
         },
-        
+
         {text: '面向对象', link: '/ts/面向对象'},
         {text: 'nameSpace', link: '/ts/nameSpace'},
         {text: '三斜线指令', link: '/ts/三斜线指令'},
@@ -124,8 +125,9 @@ export default {
       items: [
         // This shows `/guide/index.md` page.(必须有index.md)
         {text: 'JS常见问题', link: '/js/'},
-        {text: 'JS数组', link: '/js/数组'},
-        {text: 'JS对象', link: '/js/对象'},
+        {text: 'JS Arr', link: '/js/数组'},
+        {text: 'JS Object', link: '/js/对象'},
+        {text: 'JS String', link: '/js/字符'},
         {text: '网络请求', link: '/js/网络请求'},
         {text: 'pm2', link: '/js/pm2'},
       ]

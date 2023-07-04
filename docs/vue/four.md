@@ -60,8 +60,8 @@ const change = () => {
 ```vue
 
 <template>
-	<input type="text" v-model="keyword">
-	<h3>{{keyword}}</h3>
+  <input type="text" v-model="keyword">
+  <h3>{{keyword}}</h3>
 </template>
 
 <script setup lang="js">
@@ -70,24 +70,24 @@ import {ref, customRef} from 'vue'
 // let keyword = ref('hello') //使用Vue准备好的内置ref
 //自定义一个myRef
 function myRef(value, delay) {
-	let timer
-	//通过customRef去实现自定义
-	return customRef((track, trigger) => {
-		return {
-			get() {
-				//触发依赖，收集依赖
-				track() //告诉Vue这个value值是需要被“追踪”的
-				return value
-			},
-			set(newValue) {
-				clearTimeout(timer)
-				timer = setTimeout(() => {
-					value = newValue
-					trigger() //告诉Vue去更新界面
-				}, delay)
-			}
-		}
-	})
+  let timer
+  //通过customRef去实现自定义
+  return customRef((track, trigger) => {
+    return {
+      get() {
+        //触发依赖，收集依赖
+        track() //告诉Vue这个value值是需要被“追踪”的
+        return value
+      },
+      set(newValue) {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          value = newValue
+          trigger() //告诉Vue去更新界面
+        }, delay)
+      }
+    }
+  })
 }
 
 let keyword = myRef('hello', 500) //使用程序员自定义的ref
@@ -96,7 +96,28 @@ let keyword = myRef('hello', 500) //使用程序员自定义的ref
 </script>
 ```
 
-## 5.provide 与 inject
+## 5.effectScope
+
+创建一个 effect 作用域，可以捕获其中所创建的响应式副作用 (即计算属性和侦听器)，这样捕获到的副作用可以一起处理。
+
+- 示例：
+
+```js
+const scope = effectScope()
+
+scope.run(() => {
+  const doubled = computed(() => counter.value * 2)
+
+  watch(doubled, () => console.log(doubled.value))
+
+  watchEffect(() => console.log('Count: ', doubled.value))
+})
+
+// 处理掉当前作用域内的所有 effect
+scope.stop()
+```
+
+## 6.provide 与 inject
 
 - 作用：实现<strong style="color:#DD5145">祖与后代组件间</strong>通信
 
@@ -145,10 +166,10 @@ provide 可以在祖先组件中指定我们想要提供给后代组件的数据
 ```vue
 
 <template>
-	<div class="App">
-		<button>我是App</button>
-		<A></A>
-	</div>
+  <div class="App">
+    <button>我是App</button>
+    <A></A>
+  </div>
 </template>
 
 <script setup lang='ts'>
@@ -161,8 +182,8 @@ provide('flag', flag)
 
 <style>
 .App {
-	background: blue;
-	color: #fff;
+  background: blue;
+  color: #fff;
 }
 </style>
 ```
@@ -172,11 +193,11 @@ provide('flag', flag)
 ```vue
 
 <template>
-	<div style="background-color: green;">
-		我是B
-		<button @click="change">change falg</button>
-		<div>{{ flag }}</div>
-	</div>
+  <div style="background-color: green;">
+    我是B
+    <button @click="change">change falg</button>
+    <div>{{ flag }}</div>
+  </div>
 </template>
 
 <script setup lang='ts'>
@@ -184,7 +205,7 @@ import {inject, Ref, ref} from 'vue'
 //ref(1)是默认值
 const flag = inject<Ref<number>>('flag', ref(1))
 const change = () => {
-	flag.value = 2
+  flag.value = 2
 }
 </script>
 
@@ -205,9 +226,7 @@ const change = () => {
 
 当父组件有很多数据需要分发给其子代组件的时候， 就可以使用provide和inject。
 
-
-
-## 6.响应式数据的判断
+## 7.响应式数据的判断
 
 - isRef: 检查一个值是否为一个 ref 对象
 - isReactive: 检查一个对象是否是由 `reactive` 创建的响应式代理
