@@ -17,7 +17,7 @@ export default {
       items: [
         // This shows `/guide/index.md` page.(必须有index.md)
         {text: 'ESLint中的规则', link: '/git/eslint/'},
-        // {text: '二、面向对象', link: '/webpack/'},
+        {text: 'ESLint与插件冲突', link: '/git/eslint/plugins'},
       ]
     },{
     text:'Linux',
