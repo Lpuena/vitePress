@@ -19,20 +19,30 @@ export default {
         {text: 'ESLint中的规则', link: '/git/eslint/'},
         {text: 'ESLint与插件冲突', link: '/git/eslint/plugins'},
       ]
-    },{
-    text:'Linux',
+    },
+    {
+      text: 'NPM',
+      // collapsible: true,
+      // collapsed: false, //默认展开
       items: [
-        {text:'基本命令',link:'/git/linux/'},
-        {text:'node配置',link:'/git/linux/node'},
-        {text:'Nginx',link:'/git/linux/nginx'},
-        {text:'zsh',link:'/git/linux/zsh'},
+        // This shows `/guide/index.md` page.(必须有index.md)
+        {text: '好用的npm包', link: '/git/npm/'},
       ]
     },
     {
-      text:'网络安全',
+      text: 'Linux',
       items: [
-        {text: 'canvas指纹技术',link:'/git/safe/'},
-        {text: 'Puppeteer',link:'/git/safe/Puppeteer'}
+        {text: '基本命令', link: '/git/linux/'},
+        {text: 'node配置', link: '/git/linux/node'},
+        {text: 'Nginx', link: '/git/linux/nginx'},
+        {text: 'zsh', link: '/git/linux/zsh'},
+      ]
+    },
+    {
+      text: '网络安全',
+      items: [
+        {text: 'canvas指纹技术', link: '/git/safe/'},
+        {text: 'Puppeteer', link: '/git/safe/Puppeteer'}
       ]
     }
   ],
@@ -175,13 +185,23 @@ export default {
       ]
     },
   ],
-  '/nestjs/':[
+  '/nestjs/': [
     {
-      text: 'nestjs',
+      text: 'Nest',
       items: [
         // This shows `/guide/index.md` page.(必须有index.md)
         {text: 'IOC控制反转', link: '/nestjs/'},
         {text: 'NestJS Cli', link: '/nestjs/nestjsCli'},
+        // {text: 'JS数组', link: '/js/数组'},
+      ]
+    }
+  ],
+  '/expressjs/':[
+    {
+      text: 'Express',
+      items: [
+        // This shows `/guide/index.md` page.(必须有index.md)
+        {text: '初始化', link: '/expressjs/'},
         // {text: 'JS数组', link: '/js/数组'},
       ]
     }

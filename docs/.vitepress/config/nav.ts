@@ -18,7 +18,17 @@ export default function getNavs() {
       ]
     },
     {text: 'Webpack', link: '/webpack/', activeMatch: '/webpack/'},
-    {text: 'NestJS', link: '/nestjs/', activeMatch: '/nestjs/'},
+    {
+      text: '服务端',
+      items: [
+        {
+          items:[
+            {text: 'Nest', link: '/nestjs/', activeMatch: '/nestjs/'},
+            {text: 'Express', link: '/expressjs/', activeMatch: '/express/'},
+          ]
+        }
+      ]
+    },
     // {text: 'Github', link: 'https://github.com/Lpuena'},
     {text: 'About', link: '/about'},
   ]
