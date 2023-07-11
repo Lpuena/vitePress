@@ -1,6 +1,6 @@
 export default function getNavs() {
   return [
-    {text: '🔧前置配置', link: '/git/Git', activeMatch: '/git/'},
+    {text: '🔧前置', link: '/git/Git', activeMatch: '/git/'},
     {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
     // {text: 'JS', link: '/js/', activeMatch: '/js/'},
     {

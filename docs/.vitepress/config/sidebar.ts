@@ -21,6 +21,15 @@ export default {
       ]
     },
     {
+      text: 'webSocket',
+      // collapsible: true,
+      // collapsed: false, //默认展开
+      items: [
+        // This shows `/guide/index.md` page.(必须有index.md)
+        {text: '初步使用', link: '/git/websocket/'},
+      ]
+    },
+    {
       text: 'NPM',
       // collapsible: true,
       // collapsed: false, //默认展开
