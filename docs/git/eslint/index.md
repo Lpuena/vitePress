@@ -9,7 +9,7 @@
 ```
 
 ## 使用别人的ESlint规则
-[@antfu/eslint-config]（https://github.com/antfu/eslint-config）
+[@antfu/eslint-config](https://github.com/antfu/eslint-config)
 ```shell
 pnpm add -D eslint @antfu/eslint-config
 ```
