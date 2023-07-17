@@ -149,6 +149,7 @@ export default {
         {text: 'JS String', link: '/js/字符'},
         {text: '网络请求', link: '/js/网络请求'},
         {text: 'pm2', link: '/js/pm2'},
+        {text: '文件上传', link: '/js/file'},
       ]
     }
   ],
