@@ -90,3 +90,21 @@ console.log(entries);
 ```
 在上述示例中，`Object.keys(obj)` 获取对象的键组成的数组，然后通过 `map()` 方法遍历每个键，
 使用 `obj[key]` 来获取对应的值，返回键值对组成的二维数组 `[["a", 1], ["b", 2], ["c", 3]]`。
+
+## Object.entries()
+`Object.entries()` 是 JavaScript 中的一个内置方法，它用于将对象的键值对转换为一个由键值对组成的二维数组。
+这个方法返回一个新的数组，其中每个元素都是一个包含键值对的数组，其中第一个元素是键，第二个元素是对应的值。
+
+**示例：**
+```js
+const myObject = {
+  name: 'John',
+  age: 30,
+  city: 'New York'
+};
+
+const entries = Object.entries(myObject);
+console.log(entries);
+// Output: [['name', 'John'], ['age', 30], ['city', 'New York']]
+
+```

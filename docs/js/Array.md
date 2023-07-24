@@ -12,7 +12,7 @@
       }
     })
     ```
-   :::tip [splice用法](数组.html#splice方法)
+   :::tip [splice用法](#splice方法)
    splice() 方法用于添加或删除数组中的元素。
 
    **注意**：这种方法会改变原始数组。
@@ -24,7 +24,7 @@
       return item === 'c' ? '' : item
     })
     ```
-   :::tip [map方法](数组.html#map方法)
+   :::tip [map方法](#map方法)
    返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。
    :::
 
@@ -35,7 +35,7 @@
       return item != 'c'
     })
     ```
-   :::tip [filter方法](数组.html#filter方法)
+   :::tip [filter方法](#filter方法)
    filter方法会创建一个<strong style="color:orange">新的数组</strong>，新数组中的元素是通过检查指定数组中符合条件的所有元素。
 
    **注意**： filter() 不会对空数组进行检测。
@@ -498,3 +498,38 @@ console.log(array); // 输出 [2, 3, 4]
 
 ```
 需要注意的是，shift() 方法会改变原始数组，即在调用 shift() 方法后，原数组中的第一个元素将不再存在。
+
+## slice()方法
+`slice()` 方法是用于从数组中创建一个新的数组的方法。
+它并不修改原始数组，而是返回一个从指定开始索引到结束索引（不包括结束索引本身）的新数组的副本。
+
+**`slice()` 方法的语法如下：**
+```js
+array.slice(startIndex, endIndex);
+```
+**参数说明：**
+
+- `startIndex`（可选）：表示从原数组中开始提取元素的起始位置的索引。如果未指定该参数，则默认从索引 0 开始。
+- `endIndex`（可选）：表示在原数组中结束提取元素的索引（不包括该索引本身）。如果未指定该参数，则提取到原数组的末尾。
+
+返回值：`slice()` 方法将返回一个新的数组，其中包含从原始数组中提取的元素。
+
+**示例：**
+```js
+const originalArray = [1, 2, 3, 4, 5];
+
+// 从索引 1 开始，到索引 4 结束（不包括索引 4 本身）
+const slicedArray = originalArray.slice(1, 4);
+console.log(slicedArray); // Output: [2, 3, 4]
+
+// 未指定结束索引，从索引 2 开始到末尾
+const slicedArray2 = originalArray.slice(2);
+console.log(slicedArray2); // Output: [3, 4, 5]
+
+// 不传递任何参数，创建原数组的浅拷贝
+const shallowCopy = originalArray.slice();
+console.log(shallowCopy); // Output: [1, 2, 3, 4, 5]
+
+```
+需要注意的是，`slice()` 方法返回的是原数组的一部分副本，并不影响原始数组本身。如果想从原数组中删除元素，可以使用 [`splice()`](#splice方法) 方法。
+

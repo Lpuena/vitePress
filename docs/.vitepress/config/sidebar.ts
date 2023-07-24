@@ -144,9 +144,9 @@ export default {
       items: [
         // This shows `/guide/index.md` page.(必须有index.md)
         {text: 'JS常见问题', link: '/js/'},
-        {text: 'JS Array', link: '/js/数组'},
-        {text: 'JS Object', link: '/js/对象'},
-        {text: 'JS String', link: '/js/字符'},
+        {text: 'JS Array', link: '/js/Array'},
+        {text: 'JS Object', link: '/js/Object'},
+        {text: 'JS String', link: '/js/String'},
         {text: '网络请求', link: '/js/网络请求'},
         {text: 'pm2', link: '/js/pm2'},
         {text: '文件上传', link: '/js/file'},

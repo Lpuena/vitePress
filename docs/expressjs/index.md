@@ -52,7 +52,10 @@ app.get('/user', (req: Request, res: Response) => {
 
 ## post请求
 `post`请求的参数在 `req.body` 中
+
+使用 `app.use(express.json())` 解析参数
 ```ts
+app.use(express.json())
 app.post('/login', (req: Request, res: Response) => {
   console.log(req.body.name)
 

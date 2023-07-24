@@ -119,3 +119,21 @@ console.log(parts); // 输出 ["Hello", " World!"]
 需要注意的是，split() 方法不会改变原始字符串，而是返回一个新的数组。
 
 除了指定单个字符作为分隔符，split() 方法还可以使用正则表达式作为分隔符，从而进行更复杂的字符串拆分操作。
+
+## slice方法
+```js
+const str = 'Hello, World!';
+
+// 使用slice()方法从索引7开始（包括7），直到索引12结束（不包括12）获取一个新的子字符串
+const slicedStr = str.slice(7, 12);
+console.log(slicedStr); // 输出: 'World'
+
+// 如果只提供开始索引，则从该索引开始一直复制到字符串的末尾
+const slicedStrFromIndex = str.slice(3);
+console.log(slicedStrFromIndex); // 输出: 'lo, World!'
+
+// 注意：原始字符串str并未被修改
+console.log(str); // 输出: 'Hello, World!'
+
+```
+
