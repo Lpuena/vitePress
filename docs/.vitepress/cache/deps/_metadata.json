@@ -1,23 +1,35 @@
 {
-  "hash": "0e3816c2",
-  "browserHash": "469c2854",
+  "hash": "f07a647c",
+  "browserHash": "eebc7172",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "04098ead",
+      "fileHash": "e7118193",
+      "needsInterop": false
+    },
+    "vitepress > @vue/devtools-api": {
+      "src": "../../../../node_modules/@vue/devtools-api/lib/esm/index.js",
+      "file": "vitepress___@vue_devtools-api.js",
+      "fileHash": "632556c9",
+      "needsInterop": false
+    },
+    "vitepress > minisearch": {
+      "src": "../../../../node_modules/minisearch/dist/es/index.js",
+      "file": "vitepress___minisearch.js",
+      "fileHash": "045aec22",
       "needsInterop": false
     },
     "vitepress-plugin-image-viewer": {
       "src": "../../../../node_modules/vitepress-plugin-image-viewer/lib/viewer.js",
       "file": "vitepress-plugin-image-viewer.js",
-      "fileHash": "85fb7a5c",
+      "fileHash": "6b73a4bd",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-ODOPCOSX": {
-      "file": "chunk-ODOPCOSX.js"
+    "chunk-V634PGSD": {
+      "file": "chunk-V634PGSD.js"
     }
   }
 }

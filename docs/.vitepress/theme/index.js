@@ -9,9 +9,10 @@ import { useRoute } from "vitepress";
 
 export default {
   ...Theme,
-  enhanceApp({ app }) {
+  enhanceApp(ctx) {
+    Theme.enhanceApp(ctx)
     // 注册全局组件，如果你不想使用也可以不添加
-    app.component("vImageViewer", vImageViewer);
+    ctx.app.component("vImageViewer", vImageViewer);
   },
   setup() {
     // 获取路由

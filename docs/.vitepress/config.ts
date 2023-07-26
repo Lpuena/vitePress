@@ -14,6 +14,9 @@ export default defineConfig({
   },
   base: '/vitePress/',
   themeConfig: {
+    search: {
+      provider: "local",
+    },
     outline: [2, 4],//侧边栏深度:数字或者deep
     // outlineTitle: '文章目录',
     siteTitle: 'Blog',

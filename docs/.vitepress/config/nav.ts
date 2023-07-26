@@ -1,6 +1,6 @@
 export default function getNavs() {
   return [
-    {text: '🔧前置', link: '/git/Git', activeMatch: '/git/'},
+    {text: '🔧Tool', link: '/git/Git', activeMatch: '/git/'},
     {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
     // {text: 'JS', link: '/js/', activeMatch: '/js/'},
     {
@@ -19,7 +19,7 @@ export default function getNavs() {
     },
     {text: 'Webpack', link: '/webpack/', activeMatch: '/webpack/'},
     {
-      text: '服务端',
+      text: 'Server',
       items: [
         {
           items:[
