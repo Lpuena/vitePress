@@ -117,3 +117,56 @@ resultData('lit').catch(reject => {
   console.log(reject.one, reject.two);
 })
 ```
+如果resolve中传入的是另外一个Promise，那么这个新Promise会决定原Promise的状态
+
+## Promise 对象方法(类方法/静态方法)
+> Promise 是一个对象，也是一个构造函数
+
+### 1. Promise.resolve()
+```js
+Promise.resolve('xxx')
+//等价于
+new Promise(resolve => {
+  resolve('xxx')
+})
+```
+### 2. Promise.reject()
+```js
+const p = new Promise((resolve, reject) => reject('error'))
+//等价于
+const p = Promise.reject('error')
+```
+:::tip
+可以让 `Promise` 对象，走 `resolve` 的时候,依旧可以走 `reject`
+
+当返回的数据不是标准格式的时候，另类格式（接口返回的数据异常）的时候通过 [`return Promise.reject()`](#promise的链式调用) 来返回,或者通过 `throw new Error()` 来抛出错误
+
+:::
+```js
+let a = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve();
+  }, 5000)
+})
+
+a.then(res => {
+  console.log(res);
+  if (res) {
+    console.log('成功')
+  } else {
+    // return Promise.reject('失败')
+    throw new Error('失败')
+  }
+}).catch(err => {
+  console.log(err);
+})
+```
+### 3. Promise.all()
+### 4. Promise.race()
+## Promise的链式调用
+`.catch` 可以直接写在 `.then` 的后面，是因为 `.then` 方法返回的是一个 `Promise` 对象
+
+`.then` 返回的默认值是 undefined，fulfilled，使用 return 可以改变默认值
+想要走到 .catch 方法，就要返回一个 Promise
+`return Promise.reject('error')` 这样就可以将Promise的状态改成 `rejected`
+
