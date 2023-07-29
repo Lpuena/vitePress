@@ -139,7 +139,7 @@ const p = Promise.reject('error')
 :::tip
 可以让 `Promise` 对象，走 `resolve` 的时候,依旧可以走 `reject`
 
-当返回的数据不是标准格式的时候，另类格式（接口返回的数据异常）的时候通过 [`return Promise.reject()`](#promise的链式调用) 来返回,或者通过 `throw new Error()` 来抛出错误
+当返回的数据不是标准格式的时候，另类格式（接口返回的数据异常）的时候通过 [`return Promise.reject()`](#promise的链式调用) 来返回，或者通过 `throw new Error()` 来抛出错误
 
 :::
 ```js
@@ -166,7 +166,38 @@ a.then(res => {
 ## Promise的链式调用
 `.catch` 可以直接写在 `.then` 的后面，是因为 `.then` 方法返回的是一个 `Promise` 对象
 
-`.then` 返回的默认值是 undefined，fulfilled，使用 return 可以改变默认值
-想要走到 .catch 方法，就要返回一个 Promise
-`return Promise.reject('error')` 这样就可以将Promise的状态改成 `rejected`
+`.then` 返回的默认值是 **`undefined，fulfilled`**，使用 return 可以改变默认值，
+想要走到 `.catch` 方法，就要返回一个 Promise
+`return Promise.reject('error')` 这样就可以将 Promise 的状态改成 `rejected`
 
+可以无限 `.then` 方法:
+```js
+let a = new Promise(resolve => {
+  resolve('data')
+})
+let a1 = a.then(res => {
+  console.log(1, res); // data
+  return res
+}).then(res => {
+  console.log(2, res); // data
+}).then(res => {
+  console.log(3, res); // undefined
+})
+```
+`.then` 后调用 `.catch` 方法:
+```js
+let a = new Promise(resolve => {
+  resolve('data')
+})
+let a1 = a.then(res => {
+  console.log(1, res); // data
+  return '12323'
+}).then(res => {
+  console.log(2, res); // 12323
+  return Promise.reject('error')
+}).then(res => {
+  console.log(3, res);
+}).catch(err => {
+  console.log(4, err); // error
+})
+```
