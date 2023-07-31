@@ -162,13 +162,85 @@ a.then(res => {
 })
 ```
 ### 3. Promise.all()
+> `Promise.all()` 方法用于将多个 Promise 实例，包装成一个新的 Promise 实例
+```js
+const p = Promise.all([1, 2, 3])
+```
+p的状态由p1，p2，p3决定，分成两种情况。
+1. 只有p1、p2、p3的状态都为`fulfilled`，那么p的状态为`fulfilled`，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数
+2. 只要p1、p2、p3的状态有一个为`rejected`，那么p的状态为`rejected`，此时第一个被reject的实例的返回值，传递给p的回调函数
+
+示例：
+```js
+function getData(list) {
+  let newList = list.map(item => {
+    return fetch(item).then(res => res.json())
+  })
+  return Promise.all(newList)
+}
+getData([
+  'https://api.github.com/users/github',
+  'https://api.github.com/users/Lpuena',
+  'https://api.github.com/users/hzhu25'
+]).then(res => {
+  console.log(res)
+})
+```
+
 ### 4. Promise.race()
+> `Promise.race()` 方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例
+
+```js
+const p = Promise.race([p1, p2, p3])
+```
+上面的代码中，只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着变化。哪个率先改变的Promise实例的返回值，就传递给p的回调函数
+
+示例：给fetch增加请求的超时时间
+```js
+// 使用Promise.race进行fetch请求超时
+let p1 = fetch('http://127.0.0.1:3000/news').then((res) => {
+  return res.json();
+});
+let p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('超时');
+  }, 2000);
+});
+
+Promise.race([p1, p2]).then((res) => {
+  console.log(res);
+}).catch((err) => {
+  console.log(err);
+});
+```
+### 5. Promise.allSettled()
+> `Promise.allSettled()` 方法确定一组异步操作是否都结束了（不管成功或失败）。所以，它的名字叫做 `settled` 包含了 `fulfilled` 和 `rejected` 两种状态
+```js
+const promises = [ajax('111'), ajax('222'), ajax('333')]
+Promise.allSettled(promises).then(results => {
+//   过滤出成功的请求
+  results.filter(item => item.status === 'fulfilled')
+//   过滤失败的请求
+  results.filter(item => item.status === 'rejected')
+})
+```
+### 6. Promise.any()
+> 只要参数实例有一个编程 fulfilled 状态，包装实例就会变成`fulfilled`状态 如果所有参数实例都变成 rejected状态，包装实例就变成`rejected`状态
+
+Promise.any()跟Promise.race()方法很像，只有一点不同，
+就是Promise.any()不会因为某个Promise变成rejected状态而结束，必须等到所有参数Promise变成rejected状态才会结束
+
+```js
+
+```
+
+
 ## Promise的链式调用
 `.catch` 可以直接写在 `.then` 的后面，是因为 `.then` 方法返回的是一个 `Promise` 对象
 
 `.then` 返回的默认值是 **`undefined，fulfilled`**，使用 return 可以改变默认值，
 想要走到 `.catch` 方法，就要返回一个 Promise
-`return Promise.reject('error')` 这样就可以将 Promise 的状态改成 `rejected`
+`return Promise.reject('error')`，这样就可以将 Promise 的状态改成 `rejected`
 
 可以无限 `.then` 方法:
 ```js
@@ -201,3 +273,57 @@ let a1 = a.then(res => {
   console.log(4, err); // error
 })
 ```
+接口的连续调用：
+```js
+const title = 'xx'
+const url = `http://localhost:3000/news?title=${title}`
+
+// 获取id
+fetch(url).then(res => res.json()).then(data => {
+  let id = data[0].id
+  // 通过id查询评论
+  return fetch(`http://localhost:3000/comments?news_id=${id}`)
+}).then(res => {
+  console.log('122', res)
+  return res.json()
+}).then(res => {
+  console.log('333', res)
+})
+```
+## Promise实例上的finally方法
+无论走 `.then` 还是 `.catch` 都会执行 `finally` 方法,这个方法会返回一个新的 fulfilled Promise 实例
+
+可以将 `.then` 和 `.catch` 中都想实现的功能放到 `finally` 方法中 (用例:接口请求后关闭loading)
+```js
+let p = new Promise((resolve, reject) => {
+  resolve(1)
+})
+p.then((res) => {
+  console.log('then1', res); // then1 1
+
+}).catch((err) => {
+  console.log('catch');
+}).finally(() => {
+  // finally这里接受不了参数,永远都是`undefined`
+  console.log('finally'); // finally
+}).then((res) => {
+  console.log('then2', res); // then2 undefined
+})
+```
+```js
+let p = new Promise((resolve, reject) => {
+  reject(1)
+})
+p.then((res) => {
+  console.log('then1', res);
+  return undefined
+}).catch((err) => {
+  console.log('catch', err); // catch 1
+  return 'error'
+}).finally(() => {
+  console.log('finally');  // finally
+}).then((res) => {
+  console.log('then2', res); // then2 error
+})
+```
+
