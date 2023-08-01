@@ -326,4 +326,31 @@ p.then((res) => {
   console.log('then2', res); // then2 error
 })
 ```
+## async 和 await
+`async` 函数，使得异步操作变得更加方便
+- 更好的语意
+- 返回值是一个 `Promise`
+```js
+async function getData() {
+  
+}
+const a = getData()
+console.log(a) // Promise
+```
+`await` 关键字只能在异步函数中使用，用于等待一个 `Promise` 对象的解决结果。
+当遇到 `await` 表达式时，JavaScript 引擎会暂停函数的执行，直到 `Promise` 对象被解决（`resolved`）。await 表达式返回解决后的结果。
+```js
+async function fetchData() {
+  try {
+    const response = await fetch('https://api.example.com/data');
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
 
+```
+在上面的例子中，`fetchData` 是一个异步函数，它使用 `await` 等待 `fetch` 函数返回的 `Promise` 对象。
+当 `Promise` 被解决（请求成功）时，它会将响应数据解析为 `JSON`，并打印在控制台上。
+如果 `Promise` 被拒绝（请求失败），则会在控制台打印错误信息。
