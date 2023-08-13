@@ -196,6 +196,14 @@ export default {
       ]
     },
   ],
+  '/react/':[
+    {
+      text:'React',
+      items:[
+        {text:'初步使用',link:'/react/'}
+      ]
+    }
+  ],
   '/nestjs/': [
     {
       text: 'Nest',

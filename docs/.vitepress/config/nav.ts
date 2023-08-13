@@ -1,7 +1,19 @@
 export default function getNavs() {
   return [
     {text: '🔧Tool', link: '/git/Git', activeMatch: '/git/'},
-    {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
+    {
+      text:'FrontEnd',
+      items: [
+        {
+          items: [
+            {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
+            {text: 'React', link: '/react/', activeMatch: '/react/'},
+          ]
+        }
+      ]
+
+    },
+
     // {text: 'JS', link: '/js/', activeMatch: '/js/'},
     {
       text: 'TypeScript',
