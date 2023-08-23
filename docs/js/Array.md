@@ -533,3 +533,28 @@ console.log(shallowCopy); // Output: [1, 2, 3, 4, 5]
 ```
 需要注意的是，`slice()` 方法返回的是原数组的一部分副本，并不影响原始数组本身。如果想从原数组中删除元素，可以使用 [`splice()`](#splice方法) 方法。
 
+## join()
+ `join()` 方法不会改变原数组,它会把数组的所有元素连接成一个字符串并返回。
+
+`join()` 方法的语法如下:
+```js
+arr.join(separator)
+```
+- `separator`: 指定要使用的分隔符,默认为","。
+
+join()方法不会改变原数组,例如:
+```js
+let arr = [1, 2, 3];
+
+let str = arr.join(); // '1,2,3'
+
+console.log(arr); // [1, 2, 3] (no changes)
+```
+```js
+let arr = [1, 2, 3];
+
+let str = arr.join('-'); // '1-2-3' 
+
+console.log(arr); // [1, 2, 3] (no changes)
+```
+使用自定义分隔符 '-' ,原数组也没有被改变。
