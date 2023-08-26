@@ -200,7 +200,8 @@ export default {
     {
       text:'React',
       items:[
-        {text:'初步使用',link:'/react/'}
+        {text:'初步使用',link:'/react/'},
+        {text:'类式组件的生命周期',link:'/react/类式组件的生命周期'},
       ]
     }
   ],

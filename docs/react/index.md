@@ -674,7 +674,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Com />)
 ```
 
-### 非受控组件
+## 非受控组件
 非受控组件是指表单元素的值和状态并不由React组件的状态控制的一类组件。换句话说，表单元素的值不会受到React组件的状态变化影响，而是直接从DOM中读取。
 这意味着在处理非受控组件时，你需要直接操作DOM来获取和设置表单元素的值。非受控组件通常比较适用于简单的场景，或者与第三方库集成时。
 
@@ -696,7 +696,7 @@ class Login extends React.Component {
           <button>login</button>
         </form>
       </>
-    )
+    ) 
   }
   submit = (event) => {
     // 阻止默认事件
@@ -712,7 +712,133 @@ root.render(<Login />);
 在这里，ref 被用于获取输入框的引用，并且在提交表单时，直接通过 this.username.value 
 和 this.password.value 来获取输入框的值，这是非受控组件的典型做法。
 
-### 受控组件
+## 受控组件
 受控组件是指表单元素的值和状态完全由React组件的状态来控制的一类组件。
 在受控组件中，表单元素的值通过React的state来管理，同时通过事件处理函数来更新这些状态。
 每当用户与表单元素交互时，都会触发React组件的状态更新，从而保持React组件与表单元素的状态同步。
+
+```jsx
+ class Login extends React.Component {
+   state = {
+     username: '',
+     password: ''
+   }
+   render() {
+     return (
+       <>
+         <form onSubmit={this.submit}>
+           用户名：<input 
+             onChange={this.nameChange} 
+             type="text" 
+             name="username" />
+           密码：<input 
+             onChange={this.passwordChange} 
+             type="password" 
+             name="password" />
+           <button>login</button>
+         </form>
+       </>
+     )
+   }
+   submit = (event) => {
+     // 阻止默认事件
+     event.preventDefault();
+     const { username, password } = this.state
+
+     console.log(`登录的用户名是${username},密码是${password}`)
+   }
+   nameChange = (event) => {
+     this.setState({
+       username: event.target.value
+     })
+   }
+   passwordChange = (event) => {
+     this.setState({
+       password: event.target.value
+     })
+   }
+ }
+ const root = ReactDOM.createRoot(document.getElementById('root'));
+ root.render(<Login />);
+```
+## 高阶函数
+如果一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数
+
+ - 若A函数，接收的参数是一个函数，那么A就可以称为高阶函数
+ - 若A函数，调用的返回值依然是一个函数，那么A就可以成为高阶函数
+
+常见的高阶函数：Promise、setTimeout、arr.map()
+## 函数柯里化
+通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式
+
+```jsx
+ class Login extends React.Component {
+   state = {
+     username: '',
+     password: ''
+   }
+   render() {
+     return (
+       <>
+         <form onSubmit={this.submit}>
+           用户名：<input 
+             onChange={this.nameChange} //[!code --]
+             onChange={this.formChange('username')}  //[!code ++]
+             type="text" name="username" />
+           密码：<input 
+             onChange={this.formChange('password')}  //[!code ++]
+             type="password" name="password" />  
+           <button>login</button>
+         </form>
+       </>
+     )
+   }
+   submit = (event) => {
+     // 阻止默认事件
+     event.preventDefault();
+     const { username, password } = this.state
+
+     console.log(`登录的用户名是${username},密码是${password}`)
+   }
+   formChange = (type) => { //[!code ++]
+     return (event) => this.setState({ //[!code ++]
+       [type]: event.target.value //[!code ++]
+     }) //[!code ++]
+   } //[!code ++]
+   nameChange = (event) => { //[!code --]
+     this.setState({ //[!code --]
+       username: event.target.value //[!code --]
+     }) //[!code --]
+   } //[!code --]
+   passwordChange = (event) => { //[!code --]
+     this.setState({ //[!code --]
+       password: event.target.value //[!code --]
+     }) //[!code --]
+   } //[!code --]
+ } //[!code --]
+ const root = ReactDOM.createRoot(document.getElementById('root'));
+ root.render(<Login />);
+```
+
+也可以不使用函数柯里化来解决
+```jsx
+class Login extends React.Component {
+  render() {
+    return (
+        <form>
+          密码：<input
+            onChange={(event) => {this.change('password', event)}}
+            type="password" name="password"/>
+          <button>login</button>
+        </form>
+    )
+  }
+
+  change = (type, event) => {
+    this.setState({
+      [type]: event.target.value
+    })
+  }
+}
+```
+
