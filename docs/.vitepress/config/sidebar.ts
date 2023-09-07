@@ -225,6 +225,25 @@ export default {
         // {text: 'JS数组', link: '/js/数组'},
       ]
     }
+  ],
+  '/node':[
+    {
+      text:'Node',
+      items:[
+        // This shows `/guide/index.md` page.(必须有index.md)
+        {text:'npm',link:'/node/'},
+        {text:'模块化',link:'/node/模块化'},
+      ]
+    }
+  ],
+  '/uniapp':[
+    {
+      text:'uni-app',
+      items:[
+        {text:'创建项目',link:'/uniapp/'},
+        {text:'持久化',link:'/uniapp/pinia'},
+      ]
+    }
   ]
 
 }

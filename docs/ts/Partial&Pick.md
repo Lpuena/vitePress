@@ -55,7 +55,17 @@ type p = {
 
 ## Pick
 
+> Pick<T, K> 从类型 T 中选出符合属性名称在 K 中的属性，构造一个新的类型。
+
 从类型定义T的属性中，选取指定一组属性，返回一个新的类型定义。
+
+`keyof T` 表达式会返回类型 `T` 的所有属性名称的联合类型。这个联合类型可以用于遍历对象的属性，进行属性的访问和操作。
+
+`[P in K]`：这是一个映射的语法，其中 P 是一个变量，代表在遍历过程中的每个属性名称。K 是一个类型，它规定了我们希望从原始类型 T
+中选取哪些属性。
+
+`: T[P];`：这部分定义了属性的类型。它表示新类型的属性 P 的类型应该与原始类型 T 中属性 P 的类型相同。通过 `T[P]`
+，我们在新类型中映射了与原始类型相同的属性类型。
 
 ```ts
 /**
@@ -77,4 +87,15 @@ type Person = {
 type Ex = "text" | "age"
 
 type A = Pick<Person, Ex>
+```
+
+应用pick思想的案例
+
+```ts
+function getValue<T extends Object, K extends keyof T>(obj: T, key: K) {
+  return obj[key];
+}
+
+const obj1 = {name: '张三', age: 18}
+const value = getValue(obj1, 'age')
 ```
