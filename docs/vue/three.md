@@ -32,12 +32,14 @@
     - 对象类型的数据：内部 <i style="color:gray;font-weight:bold">“ 求助 ”</i> 了Vue3.0中的一个新函数—— ```reactive```函数。
 
 :::tip
-通过 ref 来获取 dom
+通过 ref 来获取 dom，获取到的是组件的实力类型
 `<div ref="dom">我是dom</div>`
 
 `const dom = ref()`
 
 定义的 `ref` 变量名称要和在 `html` 标签中的相对应
+
+在TS中用 `Instanceof<type of xxx>` 来表示实例类型
 :::
 
 ## 3.reactive函数

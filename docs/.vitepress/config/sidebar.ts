@@ -242,6 +242,8 @@ export default {
       items:[
         {text:'创建项目',link:'/uniapp/'},
         {text:'持久化',link:'/uniapp/pinia'},
+        {text:'添加拦截器',link:'/uniapp/addInterceptor'},
+        {text:'样式',link:'/uniapp/样式'},
       ]
     }
   ]
