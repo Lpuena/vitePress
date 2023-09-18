@@ -100,3 +100,30 @@ declare module "vue" {
 
 ```
 
+## 路由跳转携带参数
+
+
+```html
+<navigator
+  hover-class="none"
+  :url="`/pages/hot/hot?type=${item.type}`"
+  class="cards"
+>
+  <image class="image" mode="aspectFit" :src="item.pictures[0]"></image>
+  <image class="image" mode="aspectFit" :src="item.pictures[1]"></image>
+</navigator>
+```
+两种方法，一种是onLoad中的options，另一种的vue的props传参
+```ts
+onLoad((options) => {
+  console.log(options);
+});
+const query = defineProps<{
+  type: number;
+}>();
+console.log("query", query);
+```
+## 动态设置当前页面的标题
+```ts
+uni.setNavigationBarTitle({ title: '新的标题' })
+```
