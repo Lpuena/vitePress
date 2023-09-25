@@ -111,6 +111,24 @@ planPaymentAmountFix(value)
 }
 ```
 
+也可以这么写
+```html
+<el-form-item :label="passwordOrNewPassword" prop="password">
+  <el-input
+      v-model="ruleForm.password"
+      type="password"
+      @input="inputBoxRegular('password')"
+      autocomplete="off"
+      placeholder="请输入密码，只支持数字和字母"
+  />
+</el-form-item>
+```
+```ts
+const inputBoxRegular = (name:string) => {
+  ruleForm.value[name] = ruleForm.value[name].replace(/[^A-Za-z0-9]/g, '');
+}
+```
+
 ## 给元素绑定动态class样式
 
 > 利用三元表达式 和v-bind 来动态绑定

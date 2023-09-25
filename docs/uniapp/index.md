@@ -123,7 +123,75 @@ const query = defineProps<{
 }>();
 console.log("query", query);
 ```
-## 动态设置当前页面的标题
+
+## 分包和预下载
+在 src 下新建一个文件夹，新建页面分包。使用 [`preloadRule`](https://uniapp.dcloud.net.cn/collocation/pages.html#preloadrule) 来设置预下载
+
+示例如下：
+```json
+{
+  //分包加载规则
+  "subPackages": [
+    {
+      // 子包的根目录(刚才的新建文件夹)
+      "root": "pagesMember",
+      // 页面路径和窗口表现
+      "pages": [
+        {
+          "path": "settings/settings",
+          "style": {
+            "navigationBarTitleText": "设置"
+          }
+        }
+      ]
+    }
+  ],
+  // 分包预下载规则
+  "preloadRule": {
+    // 打开my页面的时候，进行预下载
+    "pages/my/my":{
+      "network": "all",
+      "packages": ["pagesMember"]
+    }
+  }
+}
+```
+分包一般是按照项目的业务模块划分，如会员模块分包，订单模块分包等
+
+## 从手机相册中选择图片
+`uni.chooseMedia`
 ```ts
-uni.setNavigationBarTitle({ title: '新的标题' })
+uni.chooseMedia({
+  count: 1,
+  mediaType: ['image'],
+  success: (res) => {
+    // 微信图片临时路径
+    const { tempFilePath } = res.tempFiles[0]
+  },
+})
+```
+## 将本地资源上传到开发者服务器
+`uni.uploadFile`
+
+这里如果想要跟 `request` 一样被拦截的话，要添加拦截器 `uni.addInterceptor('uploadFile', httpInterceptor)`
+```ts
+uni.uploadFile({
+  url: '/member/profile/avatar',
+  name: 'file',
+  filePath: tempFilePath,
+  success: (success) => {
+    if (success.statusCode === 200) {
+      const { avatar } = JSON.parse(success.data).result
+      console.log(avatar)
+      profile.value!.avatar = avatar
+      uni.showToast({ icon: 'success', title: '头像更新成功' })
+    }
+    else {
+      uni.showToast({ icon: 'error', title: '头像更新失败' })
+    }
+  },
+  fail: (fail) => {
+    console.log(fail)
+  },
+})
 ```
