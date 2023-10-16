@@ -206,6 +206,17 @@ export default {
       ]
     }
   ],
+  '/nuxt/':[
+    {
+      text:'Nuxt',
+      items:[
+        {text:'init',link:'/nuxt/'},
+        {text:'router',link:'/nuxt/router'},
+        {text:'seo',link:'/nuxt/seo'},
+        {text:'server',link:'/nuxt/server'},
+      ]
+    }
+  ],
   '/nestjs/': [
     {
       text: 'Nest',

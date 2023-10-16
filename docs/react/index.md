@@ -3,6 +3,52 @@ markdown: true
 ---
 
 # React
+主流的思想：不在直接去操作DOM，而是改为“数据驱动思想”
+
+操作DOM思想:
+- 操作DOM比较消耗性能广主要原因就是:可能会导致DOM重排(回流)/重绘
+- 操作起来麻烦一些
+
+数据驱动思想：
+- 不去直接操作DOM
+- 直接去操作数据（框架会按照相关的数据，让页面重新渲染）
+- 框架底层实现视图的渲染，也是基于操作DOM完成的
+  + 构建了一套 虚拟DOM-真实DOM 的渲染体系
+  + 通过虚拟DOM-真实DOM 的渲染体系，可以减少页面+ 有效避免了DOM的重排/重绘
+
+
+
+## 版本之间区别
+```
+16版本：一些项目用的最多的
+17版本：最大的升级就是看不出升级(语法没变啥，只是底层处理机制上的升级)
+18版本：机制和语法都有区别
+```
+## 使用creat-react-app 脚手架
+```json
+{
+   "scripts": {
+      // 开发环境：在本地启动web服务器，预览打包内容 
+      "start": "react-scripts start",
+      // 生产环境：打包部署，打包的内容输出到 build 目录中
+      "build": "react-scripts build",
+      // 单元测试
+      "test": "react-scripts test",
+      // 暴露webpack的配置规则，因为想修改默认的打包规则
+      "eject": "react-scripts eject" 
+   },
+   "dependencies": {
+      "@testing-library/jest-dom": "^5.17.0",
+      "@testing-library/react": "^13.4.0",
+      "@testing-library/user-event": "^13.5.0",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-scripts": "5.0.1",
+      // 性能检测工具
+      "web-vitals": "^2.1.4"
+   },
+}
+```
 
 ## HTML中简单使用
 

@@ -8,7 +8,8 @@ export default function getNavs() {
           items: [
             {text: 'Vue', link: '/vue/', activeMatch: '/vue/'},
             {text: 'React', link: '/react/', activeMatch: '/react/'},
-            {text: 'uniapp', link: '/uniapp/', activeMatch: '/uniapp/'},
+            {text: 'UniApp', link: '/uniapp/', activeMatch: '/uniapp/'},
+            {text: 'Nuxt', link: '/nuxt/', activeMatch: '/nuxt/'},
           ]
         }
       ]
