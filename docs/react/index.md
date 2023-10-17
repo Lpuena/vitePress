@@ -230,7 +230,26 @@ root.render(
 ## JSX底层处理机制 
 第一步:把我们编写的JSX语法，编译为虚拟DOM对象 `virtualDOM`,
 虚拟DOM对象:框架自己内部构建的一套对象体系(对象的相关成员都是React内部规定的)，基于这些属性描述出，我们所构建视图中的，DOM节点的相关特征!!
+ - 基于 `babel-preset-react-app` 把 JSX 编译为 `React.createElement(...)`(legacy API) 这种格式!!
+ - 只要是元素节点，必然会基于createElement进行处理!
+ - React.createElement(ele,props,..children)
+   - ele: 元素标签名(或组件)
+   - props: 元素的属性集合(对象),如果没有设置过任何的属性，则此值是null
+   - children: 第三个及以后的参数，都是当前元素的子节点
 
+虚拟DOM中的内容
+```js
+virtualDOM = {
+  $$typeof: Symbol(react.element),
+  key: null,
+  props:{
+    '元素的相关属性',
+    children: '子节点信息 (没有子节点则没有这个属性、属性值可能是一个值、也可能是一个数组)'
+  },
+  ref:null,
+  type: '标签名 (或组件)'
+}
+```
 第二步:把构建的 `virtualDOM` 渲染为真实DOM
 真实DOM:浏览器页面中，最后渲染出来，让用户看见的DOM元素!!
 
