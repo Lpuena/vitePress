@@ -51,3 +51,29 @@ const [index, setIndex] = useState(initialState);
 `index` 是一个 `state` 变量，`setIndex` 是对应的 `setter` 函数。 `initialState` 为设置的初始值
 
 这里的 `[` 和 `]` 语法称为数组解构，它允许你从数组中读取值。 useState 返回的数组总是正好有两项。
+
+
+```jsx
+function Demo() {
+  const [count, setCount] = useState(0);
+  const [form, setForm] = useState({name:'zs'});
+  const clickHandler = (name, e) => {
+    console.log('button', name, e);
+    setCount(count +1);
+    setForm({
+      ...form,
+      name:'ls'
+    });
+  }
+  return (
+    <>
+      <h1>{count}</h1>
+      <h1>{form.name}</h1>
+      <button onClick={(e) => clickHandler('json', e)}>click</button>
+    </>
+  )
+}
+```
+:::tip
+`useState` 必须在组件中使用，`setCount(count++)` 或者 `setCount(++count)` 会报错
+:::

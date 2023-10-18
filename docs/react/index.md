@@ -240,7 +240,7 @@ root.render(
 虚拟DOM中的内容
 ```js
 virtualDOM = {
-  $$typeof: Symbol(react.element),
+  $$typeof: Symbol('react.element'),
   key: null,
   props:{
     '元素的相关属性',
