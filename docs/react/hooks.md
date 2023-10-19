@@ -77,3 +77,26 @@ function Demo() {
 :::tip
 `useState` 必须在组件中使用，`setCount(count++)` 或者 `setCount(++count)` 会报错
 :::
+
+
+## useRef
+`useRef` 是一个 React Hook，可让您引用渲染不需要的值。
+
+```jsx
+const ref = useRef(initialValue)
+```
+使用 ref 来操作 DOM，DOM可用时，ref.current获取DOM（渲染完毕DOM后才可用）
+```jsx
+import { useRef } from 'react';
+
+function MyComponent() {
+  const inputRef = useRef(null);
+  // ...
+```
+
+:::warning
+渲染期间请勿写入或读取 `ref.current`
+:::
+
+## useEffect
+useEffect 是一个 React Hook 函数，用于在React组件中创建不是由事件引起而是由渲染本身引起的操作，比如发送AJAX请求，更改DOM等等。

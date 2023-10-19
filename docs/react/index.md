@@ -227,6 +227,23 @@ root.render(
 
 ```
 
+普通class类名和动态class类名的绑定
+
+可以使用 `classnames` 这个js库，可以非常方便的通过条件动态控制class类名的显示
+```jsx
+<li className="nav-sort">
+  {/* 高亮类名： active */}
+  {tabs.map(item =>
+    <span
+      key={item.type}
+      onClick={() => handleTabChange(item.type)}
+      className={`nav-item ${ type === item.type && 'active'}`} //[!code --]
+      className={classNames('nav-item', { active: type === item.type })}> //[!code ++]
+      {item.text}
+    </span>)}
+</li>
+```
+
 ## JSX底层处理机制 
 第一步:把我们编写的JSX语法，编译为虚拟DOM对象 `virtualDOM`,
 虚拟DOM对象:框架自己内部构建的一套对象体系(对象的相关成员都是React内部规定的)，基于这些属性描述出，我们所构建视图中的，DOM节点的相关特征!!
