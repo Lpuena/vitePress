@@ -9,7 +9,7 @@ git config --global user.email "xxx@xx.com"
 ```
 --global 全局生效，配置一次即可。
 
-在C:/Users/用户名文件夹/.gitconfig 文件中，可以查看全局配置的git信息。
+在 `C:/Users/用户名文件夹/.gitconfig` 或者 `~/.gitconfig` 文件中，可以查看全局配置的git信息。
 
 ### 检查配置信息
 
