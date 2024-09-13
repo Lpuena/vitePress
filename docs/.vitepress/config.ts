@@ -1,16 +1,16 @@
 import { defineConfig } from 'vitepress'
 import getNavs from "./config/nav";
-import sidebar from "./config/sidebar";
+import getSidebar from "./config/sidebar";
 
 
 export default defineConfig({
   lang: 'zh-Hans',
   title: 'FrontEnd Blog',
   description: 'A front-end blog powered by VitePress',
-  // head: [
-  //   // ['link', {rel: 'icon', type: 'image/svg+xml', href: 'https://lpuena.github.io/vitePress/32.png'}],
-  //   ['link', {rel: 'icon', type: 'image/svg+xml', href: 'https://lpuena.github.io/vitepress/Lp-1.svg'}],
-  // ],
+  head: [
+    // ['link', {rel: 'icon', type: 'image/svg+xml', href: 'https://lpuena.github.io/vitePress/32.png'}],
+    ['link', {rel: 'icon', type: 'image/svg+xml', href: 'https://lpuena.github.io/vitepress/Lp-1.svg'}],
+  ],
   lastUpdated: true,
   markdown: {
     lineNumbers: true,
@@ -43,7 +43,7 @@ export default defineConfig({
     siteTitle: 'FrontEnd',
     // logo: '/32.png',
     nav: getNavs(),
-    sidebar,
+    sidebar:getSidebar(),
     lastUpdated: {
       text: '最后更新于',
       formatOptions: {
