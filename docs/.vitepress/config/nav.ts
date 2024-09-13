@@ -1,6 +1,6 @@
 export default function getNavs() {
   return [
-    {text: '🔧Tool', link: '/git/Git', activeMatch: '/git/'},
+    {text: 'Tools', link: '/git/Git', activeMatch: '/git/'},
     {
       text:'FrontEnd',
       items: [
